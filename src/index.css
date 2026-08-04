@@ -25,19 +25,31 @@
     box-sizing: border-box;
   }
 
-  html {
-    scroll-behavior: smooth;
-  }
-
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg-dark);
     color: var(--text);
     overflow-x: hidden;
     min-height: 100vh;
-    cursor: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Hide the native cursor only where the custom cursor renders */
+  @media (pointer: fine) {
+    body {
+      cursor: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 
   #root {
@@ -62,13 +74,14 @@
 
   .glass {
     background: var(--bg-card);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--border);
     border-radius: 24px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     transform: translateZ(0);
     backface-visibility: hidden;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .glass:hover {
@@ -78,6 +91,25 @@
       0 0 60px rgba(255, 255, 255, 0.05),
       inset 0 1px 0 rgba(255, 255, 255, 0.1);
     transform: translateY(-5px);
+  }
+
+  /* Thin scrollbar for scrollable lists */
+  .thin-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 9999px;
   }
 
   /* Custom Cursor */
@@ -181,19 +213,37 @@
   .container {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 clamp(16px, 4vw, 24px);
     width: 100%;
   }
 
   .section {
-    padding: 120px 0;
+    padding: clamp(64px, 12vw, 120px) 0;
     position: relative;
     z-index: 1;
   }
 
+  /* Giant parallax word behind each section */
+  .bg-word {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(5rem, 22vw, 25rem);
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.04);
+    letter-spacing: -0.05em;
+    line-height: 1;
+    white-space: nowrap;
+    user-select: none;
+    pointer-events: none;
+    z-index: 0;
+  }
+
   /* Title Styles */
   .section-title {
-    font-size: 3.5rem;
+    font-size: clamp(2.25rem, 6vw, 3.5rem);
     font-family: 'Playfair Display', serif;
     font-weight: 500;
     color: #ffffff;

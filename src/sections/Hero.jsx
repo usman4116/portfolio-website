@@ -42,12 +42,12 @@ export default function Hero() {
   const opacity = useTransform(scrollY, [0, 400], [1, 0])
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      
+    <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pb-12 lg:pb-0">
+
       {/* Hero Content */}
-      <div className="relative z-10 w-full max-w-5xl mx-auto px-6 flex flex-col items-center justify-center pt-20">
-        <motion.div 
-          className="glass rounded-[2rem] p-8 md:p-12 w-full backdrop-blur-3xl bg-black/50 border border-white/10 shadow-2xl origin-center"
+      <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center pt-24 lg:pt-20">
+        <motion.div
+          className="glass rounded-[2rem] p-6 sm:p-8 md:p-12 w-full bg-black/50 border border-white/10 shadow-2xl origin-center"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: 'easeOut' }}
@@ -60,7 +60,7 @@ export default function Hero() {
               <motion.div variants={item} className="mb-6">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
                   <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                  <span className="text-[11px] font-medium text-slate-300 uppercase tracking-wider">Now in Public Beta</span>
+                  <span className="text-[11px] font-medium text-slate-300 uppercase tracking-wider">Available for Work</span>
                 </div>
               </motion.div>
 
@@ -98,14 +98,14 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Bottom Stats Row */}
-      <motion.div 
-        className="absolute bottom-10 left-0 w-full z-20 px-6"
+      {/* Bottom Stats Row — in normal flow on mobile, pinned to the bottom on desktop */}
+      <motion.div
+        className="relative lg:absolute lg:bottom-10 lg:left-0 w-full z-20 px-4 sm:px-6 mt-12 lg:mt-0"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 1 }}
       >
-        <div className="max-w-5xl mx-auto flex flex-wrap justify-center sm:justify-between items-center gap-8 border-t border-white/10 pt-8">
+        <div className="max-w-5xl mx-auto flex flex-wrap justify-center sm:justify-between items-center gap-6 sm:gap-8 border-t border-white/10 pt-8">
           <HeroStat icon={StatIcon1} value="2+ Years" label="Freelance Exp" />
           <HeroStat icon={StatIcon2} value="25K+" label="Active Users" subtext="UMT Portal" />
           <HeroStat icon={StatIcon3} value="5x" label="Faster EDA" subtext="CLI Tool" />

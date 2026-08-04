@@ -12,12 +12,15 @@ export default function Preloader() {
           clearInterval(interval)
           return 100
         }
-        return prev + Math.random() * 15
+        return Math.min(prev + Math.random() * 22 + 8, 100)
       })
-    }, 150)
+    }, 80)
 
-    setTimeout(() => setLoading(false), 2500)
-    return () => clearInterval(interval)
+    const timeout = setTimeout(() => setLoading(false), 1100)
+    return () => {
+      clearInterval(interval)
+      clearTimeout(timeout)
+    }
   }, [])
 
   return (

@@ -18,28 +18,35 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState('hero')
 
   useEffect(() => {
+    let ticking = false
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-      
-      const sections = navLinks.map(link => link.href.substring(1))
-      const current = sections.find(section => {
-        const element = document.getElementById(section)
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          return rect.top <= 150 && rect.bottom >= 150
-        }
-        return false
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 50)
+
+        const sections = navLinks.map(link => link.href.substring(1))
+        const current = sections.find(section => {
+          const element = document.getElementById(section)
+          if (element) {
+            const rect = element.getBoundingClientRect()
+            return rect.top <= 150 && rect.bottom >= 150
+          }
+          return false
+        })
+        if (current) setActiveSection(current)
+        ticking = false
       })
-      if (current) setActiveSection(current)
     }
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-      scrolled ? 'bg-[#020617]/40 backdrop-blur-md border-b border-white/5' : ''
+      scrolled ? 'bg-[#020202]/60 backdrop-blur-md border-b border-white/5' : ''
     }`}>
       <div className="container">
         <div className="flex items-center justify-between h-20">
@@ -78,7 +85,7 @@ export default function Navbar() {
                   {link.name}
                   {isActive && (
                     <motion.div
-                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-white rounded-full"
                       layoutId="navbar-indicator"
                     />
                   )}
@@ -117,7 +124,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-[#020617]/60 backdrop-blur-md border-t border-white/5"
+            className="lg:hidden bg-[#020202]/90 backdrop-blur-md border-t border-white/5"
           >
             <div className="container py-4 space-y-1">
               {navLinks.map((link, i) => {

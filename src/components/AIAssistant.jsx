@@ -5,33 +5,33 @@ import { FiX, FiSend } from 'react-icons/fi'
 import { FaRocket, FaCode, FaUser, FaEnvelope } from 'react-icons/fa'
 
 const quickResponses = [
-  { 
-    q: 'What projects have you built?', 
-    a: 'I have built several projects including Library Management System, Student Management System, AI Code Assistant, and Personal Finance Tracker. Check out the Projects section for details!',
+  {
+    q: 'What projects have you built?',
+    a: 'I have built AcctPro SaaS (multi-tenant accounting system), the UMT Student Portal redesign (25K+ users), Harvest-Max-Ai (ML for agriculture), ChainReaction (C++ blockchain simulation), and a Python EDA CLI tool. Check out the Projects section for details!',
     icon: FaRocket
   },
-  { 
-    q: 'What are your skills?', 
-    a: 'I specialize in C++, Python, JavaScript, React, and have strong foundations in Data Structures, Algorithms, and OOP. Visit the Skills section for full details!',
+  {
+    q: 'What are your skills?',
+    a: 'I specialize in JavaScript/TypeScript, Python, C++, React, Next.js, and Node.js, with strong foundations in Data Structures, Algorithms, and Machine Learning. Visit the Skills section for full details!',
     icon: FaCode
   },
-  { 
-    q: 'Tell me about yourself?', 
-    a: "I'm Muhammad Usman Farhan, a Computer Science student at UMT. I'm passionate about coding, problem-solving, and building innovative software solutions.",
+  {
+    q: 'Tell me about yourself?',
+    a: "I'm Muhammad Usman Farhan, a Computer Science student at UMT and Certified Graphic Designer with 2+ years of freelance experience. I'm passionate about coding, problem-solving, and building production-grade software.",
     icon: FaUser
   },
-  { 
-    q: 'How can I contact you?', 
-    a: 'You can reach me via email, LinkedIn, or use the contact form in the Contact section. I typically respond within 24 hours!',
+  {
+    q: 'How can I contact you?',
+    a: 'You can reach me via email (roxenusman@gmail.com), LinkedIn, or use the contact form in the Contact section. I typically respond within 24 hours!',
     icon: FaEnvelope
   },
 ]
 
 export default function AIAssistant() {
   const [isOpen, setIsOpen] = useState(false)
-  const [messages, setMessages] = useState([{ 
-    text: "Hi! I'm your AI assistant. Click a question below or ask me anything about Muhammad!", 
-    isBot: true 
+  const [messages, setMessages] = useState([{
+    text: "Hi! I'm your AI assistant. Click a question below or ask me anything about Muhammad!",
+    isBot: true
   }])
   const [input, setInput] = useState('')
 
@@ -53,63 +53,52 @@ export default function AIAssistant() {
     <>
       <motion.button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-8 right-8 z-50 w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-500/40 hover:shadow-blue-500/60 transition-all"
+        className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 w-14 h-14 sm:w-16 sm:h-16 bg-white text-black rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.15)] hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] transition-shadow"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
-        animate={{
-          boxShadow: [
-            '0 0 20px rgba(59, 130, 246, 0.4)',
-            '0 0 40px rgba(59, 130, 246, 0.6)',
-            '0 0 20px rgba(59, 130, 246, 0.4)',
-          ]
-        }}
-        transition={{ duration: 2, repeat: Infinity }}
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 1.5, type: 'spring', bounce: 0.4 }}
         data-hover
+        aria-label="Open AI assistant"
       >
+        <BsRobot className="text-2xl sm:text-3xl" />
         <motion.div
-          animate={{ rotate: [0, 10, -10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-        >
-          <BsRobot className="text-3xl text-white" />
-        </motion.div>
-        <motion.div
-          className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full"
+          className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-black"
           animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 1, repeat: Infinity }}
+          transition={{ duration: 1.5, repeat: Infinity }}
         />
       </motion.button>
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            className="fixed bottom-28 right-8 z-50 w-96 glass rounded-2xl overflow-hidden shadow-2xl"
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
+            className="fixed bottom-24 sm:bottom-28 right-4 sm:right-8 z-50 w-[calc(100vw-2rem)] max-w-sm glass rounded-2xl overflow-hidden shadow-2xl"
           >
-            <div className="bg-gradient-to-r from-blue-600 to-cyan-600 px-5 py-4 flex items-center justify-between">
+            <div className="bg-white/5 border-b border-white/10 px-5 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <motion.div
-                  className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center"
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  <BsRobot className="text-xl text-white" />
-                </motion.div>
+                <div className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center">
+                  <BsRobot className="text-xl" />
+                </div>
                 <div>
                   <span className="font-semibold text-white">AI Assistant</span>
-                  <p className="text-xs text-white/70">Online</p>
+                  <p className="text-xs text-emerald-400">Online</p>
                 </div>
               </div>
-              <button 
-                onClick={() => setIsOpen(false)} 
-                className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors"
+              <button
+                onClick={() => setIsOpen(false)}
+                className="w-8 h-8 rounded-lg bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-colors"
+                aria-label="Close AI assistant"
               >
                 <FiX />
               </button>
             </div>
 
-            <div className="h-72 overflow-y-auto p-4 space-y-3">
+            <div className="h-64 sm:h-72 overflow-y-auto p-4 space-y-3 thin-scrollbar">
               {messages.map((msg, i) => (
                 <motion.div
                   key={i}
@@ -118,9 +107,9 @@ export default function AIAssistant() {
                   className={`flex ${msg.isBot ? 'justify-start' : 'justify-end'}`}
                 >
                   <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm ${
-                    msg.isBot 
-                      ? 'bg-white/5 border border-white/10 rounded-tl-none' 
-                      : 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-tr-none'
+                    msg.isBot
+                      ? 'bg-white/5 border border-white/10 text-slate-200 rounded-tl-none'
+                      : 'bg-white text-black rounded-tr-none'
                   }`}>
                     {msg.text}
                   </div>
@@ -134,12 +123,12 @@ export default function AIAssistant() {
                   <motion.button
                     key={i}
                     onClick={() => handleResponse(qr.a)}
-                    className="text-xs px-3 py-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 transition-all flex items-center gap-1.5"
+                    className="text-xs px-3 py-2 bg-white/5 hover:bg-white/10 text-slate-300 rounded-lg border border-white/10 transition-colors flex items-center gap-1.5"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     data-hover
                   >
-                    <qr.icon size={12} className="text-blue-400" />
+                    <qr.icon size={12} className="text-slate-400" />
                     {qr.q}
                   </motion.button>
                 ))}
@@ -150,15 +139,16 @@ export default function AIAssistant() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask me anything..."
-                  className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm focus:border-blue-500 transition-colors placeholder-slate-600"
+                  className="flex-1 min-w-0 bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:border-white/40 focus:outline-none transition-colors placeholder-slate-600"
                   data-hover
                 />
                 <motion.button
                   type="submit"
-                  className="p-2.5 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl"
+                  className="p-2.5 bg-white text-black rounded-xl"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   data-hover
+                  aria-label="Send message"
                 >
                   <FiSend />
                 </motion.button>

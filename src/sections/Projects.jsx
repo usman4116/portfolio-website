@@ -170,7 +170,7 @@ export default function Projects() {
       {/* Massive Background Text */}
       <motion.div 
         style={{ y }}
-        className="absolute inset-0 flex items-center justify-center text-[15rem] md:text-[25rem] font-black text-white/[0.04] select-none tracking-tighter pointer-events-none z-0 leading-none whitespace-nowrap will-change-transform transform-gpu"
+        className="bg-word will-change-transform transform-gpu"
       >
         PROJECTS
       </motion.div>
@@ -189,7 +189,7 @@ export default function Projects() {
           className="text-center mb-16"
         >
           <p className="section-subtitle justify-center">My Work</p>
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight mb-8">
+          <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight mb-8">
             Selected <br className="hidden md:block" />
             <span className="text-slate-400">Projects.</span>
           </h2>

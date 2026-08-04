@@ -66,7 +66,7 @@ export default function Experience() {
       {/* Massive Background Text */}
       <motion.div 
         style={{ y }}
-        className="absolute inset-0 flex items-center justify-center text-[15rem] md:text-[25rem] font-black text-white/[0.04] select-none tracking-tighter pointer-events-none z-0 leading-none whitespace-nowrap will-change-transform transform-gpu"
+        className="bg-word will-change-transform transform-gpu"
       >
         EXPERIENCE
       </motion.div>
@@ -85,7 +85,7 @@ export default function Experience() {
           className="text-center mb-24"
         >
           <p className="section-subtitle justify-center">My Path</p>
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight mb-8">
+          <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight mb-8">
             Experience & <br className="hidden md:block" />
             <span className="text-slate-400">Education.</span>
           </h2>
@@ -126,8 +126,7 @@ export default function Experience() {
               </motion.div>
 
               <motion.div
-                className="glass p-8 ml-4 md:ml-0 md:mr-8"
-                style={index % 2 === 0 ? {} : { marginLeft: '2rem', marginRight: 0 }}
+                className={`glass p-6 sm:p-8 ml-4 md:ml-0 ${index % 2 === 0 ? 'md:mr-8' : 'md:ml-8'}`}
                 whileHover={{ scale: 1.02 }}
               >
                 <div className="flex flex-wrap items-center justify-between gap-3 mb-4">

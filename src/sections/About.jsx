@@ -85,7 +85,7 @@ export default function About() {
       {/* Massive Background Text */}
       <motion.div 
         style={{ y }}
-        className="absolute inset-0 flex items-center justify-center text-[15rem] md:text-[25rem] font-black text-white/[0.04] select-none tracking-tighter pointer-events-none z-0 leading-none whitespace-nowrap will-change-transform transform-gpu"
+        className="bg-word will-change-transform transform-gpu"
       >
         JOURNEY
       </motion.div>
@@ -104,7 +104,7 @@ export default function About() {
           className="text-center mb-24"
         >
           <p className="section-subtitle justify-center">Get to Know</p>
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight mb-8">
+          <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight mb-8">
             The <span className="text-slate-400">Journey.</span>
           </h2>
         </motion.div>
@@ -135,7 +135,7 @@ export default function About() {
                 <FaCertificate className="text-2xl text-white" />
                 <h3 className="text-2xl font-medium text-white">Certifications</h3>
               </div>
-              <ul className="space-y-5 max-h-[350px] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+              <ul className="space-y-5 max-h-[350px] overflow-y-auto pr-4 thin-scrollbar">
                 {[
                   { name: 'Crash Course on Python', issuer: 'Google', url: 'https://coursera.org/verify/3XSN75G9EQKR' },
                   { name: 'Python for Data Science, AI & Development', issuer: 'IBM', url: 'https://coursera.org/verify/7FVVR3JMQ9HS' },

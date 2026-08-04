@@ -1,34 +1,33 @@
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useState, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Instances, Instance } from '@react-three/drei'
-import { EffectComposer, DepthOfField } from '@react-three/postprocessing'
 import * as THREE from 'three'
 
 const Lattice = () => {
   const groupRef = useRef()
-  
+
   // Lattice parameters
   const size = 5 // 5x5x5 grid
   const spacing = 3
-  
+
   // Precalculate positions and lines
   const { spheres, xLines, yLines, zLines } = useMemo(() => {
     const s = []
     const xl = []
     const yl = []
     const zl = []
-    
+
     const offset = ((size - 1) * spacing) / 2
-    
+
     for (let x = 0; x < size; x++) {
       for (let y = 0; y < size; y++) {
         for (let z = 0; z < size; z++) {
           const px = x * spacing - offset
           const py = y * spacing - offset
           const pz = z * spacing - offset
-          
+
           s.push([px, py, pz])
-          
+
           if (x < size - 1) {
             xl.push({ pos: [px + spacing / 2, py, pz], rot: [0, 0, Math.PI / 2] })
           }
@@ -43,7 +42,7 @@ const Lattice = () => {
     }
     return { spheres: s, xLines: xl, yLines: yl, zLines: zl }
   }, [size, spacing])
-  
+
   useFrame((state) => {
     const t = state.clock.getElapsedTime()
     // Slow, subtle rotation to give life to the grid
@@ -54,22 +53,24 @@ const Lattice = () => {
     }
   })
 
-  // Common material
-  const material = new THREE.MeshBasicMaterial({ color: '#ffffff', transparent: true, opacity: 0.3 })
+  const material = useMemo(
+    () => new THREE.MeshBasicMaterial({ color: '#ffffff', transparent: true, opacity: 0.3 }),
+    []
+  )
 
   return (
     <group ref={groupRef}>
       {/* Nodes */}
       <Instances limit={spheres.length} material={material}>
-        <sphereGeometry args={[0.2, 16, 16]} />
+        <sphereGeometry args={[0.2, 12, 12]} />
         {spheres.map((pos, i) => (
           <Instance key={`s-${i}`} position={pos} />
         ))}
       </Instances>
-      
+
       {/* Connections */}
       <Instances limit={xLines.length + yLines.length + zLines.length} material={material}>
-        <cylinderGeometry args={[0.03, 0.03, spacing, 8]} />
+        <cylinderGeometry args={[0.03, 0.03, spacing, 6]} />
         {xLines.map((line, i) => <Instance key={`xl-${i}`} position={line.pos} rotation={line.rot} />)}
         {yLines.map((line, i) => <Instance key={`yl-${i}`} position={line.pos} rotation={line.rot} />)}
         {zLines.map((line, i) => <Instance key={`zl-${i}`} position={line.pos} rotation={line.rot} />)}
@@ -79,27 +80,41 @@ const Lattice = () => {
 }
 
 export default function GridPulse() {
+  const [enable3D, setEnable3D] = useState(false)
+  const [pageVisible, setPageVisible] = useState(true)
+
+  useEffect(() => {
+    // Skip the WebGL scene on touch devices, small screens, and for users
+    // who prefer reduced motion — they get the static gradient instead.
+    const isTouch = window.matchMedia('(pointer: coarse)').matches
+    const isSmall = window.innerWidth < 768
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    setEnable3D(!isTouch && !isSmall && !reducedMotion)
+
+    const onVisibility = () => setPageVisible(!document.hidden)
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => document.removeEventListener('visibilitychange', onVisibility)
+  }, [])
+
   return (
     <div className="fixed inset-0 z-0 bg-[#020202] pointer-events-none">
-      <Canvas 
-        camera={{ position: [0, 0, 8], fov: 50 }}
-        dpr={[1, 1.5]}
-        gl={{ powerPreference: "high-performance", antialias: false, alpha: false }}
-      >
-        <fog attach="fog" args={['#020202', 5, 25]} />
-        <Lattice />
-        <EffectComposer multisampling={0}>
-          <DepthOfField
-            focusDistance={0.01}
-            focalLength={0.05}
-            bokehScale={4}
-            height={480}
-            resolutionScale={0.5}
-          />
-        </EffectComposer>
-      </Canvas>
+      {/* Static depth gradient — always present, sole background on mobile */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,#101010_0%,#020202_70%)]" />
+
+      {enable3D && (
+        <Canvas
+          camera={{ position: [0, 0, 8], fov: 50 }}
+          dpr={[1, 1.25]}
+          frameloop={pageVisible ? 'always' : 'never'}
+          gl={{ powerPreference: 'high-performance', antialias: false, alpha: true, stencil: false, depth: true }}
+        >
+          <fog attach="fog" args={['#020202', 5, 22]} />
+          <Lattice />
+        </Canvas>
+      )}
+
       {/* Vignette overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_20%,_#000000_100%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_20%,_#000000_100%)]" />
     </div>
   )
 }

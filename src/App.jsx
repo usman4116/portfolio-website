@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { ReactLenis } from 'lenis/react'
 import Navbar from './components/Navbar'
 import Hero from './sections/Hero'
@@ -11,17 +12,21 @@ import AIAssistant from './components/AIAssistant'
 import CustomCursor from './components/CustomCursor'
 import Preloader from './components/Preloader'
 import ScrollProgress from './components/ScrollProgress'
-import GridPulse from './components/GridPulse'
+import BackToTop from './components/BackToTop'
+
+const GridPulse = lazy(() => import('./components/GridPulse'))
 
 function App() {
   return (
-    <ReactLenis root>
+    <ReactLenis root options={{ lerp: 0.12, wheelMultiplier: 1, smoothWheel: true, syncTouch: false }}>
       <Preloader />
       <CustomCursor />
       <ScrollProgress />
       
-      {/* 3D Background */}
-      <GridPulse />
+      {/* 3D Background — lazy-loaded so first paint isn't blocked by three.js */}
+      <Suspense fallback={<div className="fixed inset-0 z-0 bg-[#020202]" />}>
+        <GridPulse />
+      </Suspense>
       
       <div className="relative z-10">
         <Navbar />
@@ -39,6 +44,7 @@ function App() {
           <Footer />
         </div>
         <AIAssistant />
+        <BackToTop />
       </div>
     </ReactLenis>
   )

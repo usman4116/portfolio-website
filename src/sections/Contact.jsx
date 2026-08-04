@@ -63,7 +63,7 @@ export default function Contact() {
       {/* Massive Background Text */}
       <motion.div 
         style={{ y }}
-        className="absolute inset-0 flex items-center justify-center text-[15rem] md:text-[25rem] font-black text-white/[0.04] select-none tracking-tighter pointer-events-none z-0 leading-none whitespace-nowrap will-change-transform transform-gpu"
+        className="bg-word will-change-transform transform-gpu"
       >
         CONTACT
       </motion.div>
@@ -75,7 +75,7 @@ export default function Contact() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight mb-8">
+          <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight mb-8">
             Let's build something <br className="hidden md:block" />
             <span className="text-slate-400">extraordinary.</span>
           </h2>
@@ -88,7 +88,7 @@ export default function Contact() {
               whileTap={{ scale: 0.95 }}
               data-hover
             >
-              Get started free <FaRocket className="text-xs" />
+              Get in touch <FaRocket className="text-xs" />
             </motion.a>
             <motion.a
               href="https://linkedin.com/in/usman4116/"
