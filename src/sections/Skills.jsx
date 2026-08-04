@@ -78,7 +78,7 @@ export default function Skills() {
   const y = useTransform(smoothProgress, [0, 1], ["-20%", "20%"])
 
   return (
-    <section id="skills" ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden py-32 z-10">
+    <section id="skills" ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32 z-10">
       {/* Massive Background Text */}
       <motion.div 
         style={{ y }}
@@ -98,7 +98,7 @@ export default function Skills() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-24"
+          className="text-center mb-12 md:mb-24"
         >
           <p className="section-subtitle justify-center">What I Know</p>
           <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight mb-8">
@@ -116,7 +116,7 @@ export default function Skills() {
               whileHover={{ scale: 1.02 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.4 }}
-              className={`glass p-8 md:p-10 flex flex-col group ${category.span}`}
+              className={`glass p-6 sm:p-8 md:p-10 flex flex-col group ${category.span}`}
             >
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
@@ -137,7 +137,7 @@ export default function Skills() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="glass p-8 md:p-10 md:col-span-4"
+            className="glass p-6 sm:p-8 md:p-10 md:col-span-4"
           >
             <h3 className="text-lg font-medium text-slate-300 mb-8">Additional Technologies</h3>
             <div className="flex flex-wrap gap-3">

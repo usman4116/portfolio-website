@@ -93,7 +93,7 @@ function ProjectCard({ project, index }) {
       style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`glass p-8 flex flex-col group ${project.span}`}
+      className={`glass p-6 sm:p-8 flex flex-col group ${project.span}`}
     >
       <div className="flex items-start justify-between mb-6">
         <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
@@ -166,7 +166,7 @@ export default function Projects() {
     : projects.filter(p => p.category === activeFilter)
 
   return (
-    <section id="projects" ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden py-32 z-10">
+    <section id="projects" ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32 z-10">
       {/* Massive Background Text */}
       <motion.div 
         style={{ y }}
@@ -186,7 +186,7 @@ export default function Projects() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10 md:mb-16"
         >
           <p className="section-subtitle justify-center">My Work</p>
           <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight mb-8">
@@ -205,7 +205,7 @@ export default function Projects() {
             <button
               key={cat.filter}
               onClick={() => setActiveFilter(cat.filter)}
-              className={`px-8 py-3 rounded-full text-sm font-medium transition-colors ${
+              className={`px-5 sm:px-8 py-3 rounded-full text-sm font-medium transition-colors ${
                 activeFilter === cat.filter
                   ? 'bg-white text-black'
                   : 'bg-white/5 border border-white/5 text-slate-400 hover:text-white hover:bg-white/10'

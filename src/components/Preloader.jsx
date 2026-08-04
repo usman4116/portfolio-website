@@ -45,13 +45,13 @@ export default function Preloader() {
             <motion.div
               className="absolute inset-0 flex items-center justify-center"
             >
-              <motion.span
-                className="text-2xl font-bold text-white font-serif"
-                animate={{ opacity: [0.5, 1, 0.5] }}
+              <motion.img
+                src="/profile.jpg"
+                alt="Muhammad Usman Farhan"
+                className="w-16 h-16 rounded-full object-cover border border-white/20"
+                animate={{ opacity: [0.6, 1, 0.6] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                MU
-              </motion.span>
+              />
             </motion.div>
           </div>
 

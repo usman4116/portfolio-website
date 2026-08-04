@@ -59,7 +59,7 @@ export default function Contact() {
   const y = useTransform(smoothProgress, [0, 1], ["-20%", "20%"])
 
   return (
-    <section id="contact" ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden py-32 z-10">
+    <section id="contact" ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32 z-10">
       {/* Massive Background Text */}
       <motion.div 
         style={{ y }}
@@ -125,7 +125,7 @@ export default function Contact() {
           viewport={{ once: true }}
           className="w-full max-w-2xl"
         >
-          <div className="glass p-8 md:p-12 rounded-[2rem]">
+          <div className="glass p-6 sm:p-8 md:p-12 rounded-[2rem]">
             {submitted ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}

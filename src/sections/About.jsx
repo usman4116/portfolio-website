@@ -22,7 +22,7 @@ function MemoryGraph() {
   return (
     <div className="relative py-10" ref={containerRef}>
       {/* SVG Path connecting nodes */}
-      <div className="absolute left-[39px] top-0 bottom-0 w-1">
+      <div className="absolute left-[31px] sm:left-[39px] top-0 bottom-0 w-1">
         <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 4 400">
           <line x1="2" y1="0" x2="2" y2="400" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
           <motion.line 
@@ -38,13 +38,13 @@ function MemoryGraph() {
         {graphNodes.map((node, i) => (
           <motion.div 
             key={i}
-            className="flex items-center gap-8 relative z-10"
+            className="flex items-center gap-5 sm:gap-8 relative z-10"
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ delay: i * 0.2 }}
           >
-            <div className="w-20 h-20 rounded-full glass flex items-center justify-center shrink-0 border-white/20 relative">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full glass flex items-center justify-center shrink-0 border-white/20 relative">
               <motion.div 
                 className="absolute inset-0 rounded-full border-2 border-white"
                 initial={{ scale: 0.8, opacity: 0 }}
@@ -52,7 +52,7 @@ function MemoryGraph() {
                 viewport={{ once: true }}
                 transition={{ delay: node.delay, duration: 0.5 }}
               />
-              <node.icon className="text-3xl text-white" />
+              <node.icon className="text-2xl sm:text-3xl text-white" />
             </div>
             <div>
               <h4 className="text-xl font-bold text-white mb-1">{node.title}</h4>
@@ -81,7 +81,7 @@ export default function About() {
   const y = useTransform(smoothProgress, [0, 1], ["-20%", "20%"])
 
   return (
-    <section id="about" ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden py-32 z-10">
+    <section id="about" ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32 z-10">
       {/* Massive Background Text */}
       <motion.div 
         style={{ y }}
@@ -101,7 +101,7 @@ export default function About() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-24"
+          className="text-center mb-12 md:mb-24"
         >
           <p className="section-subtitle justify-center">Get to Know</p>
           <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight mb-8">
@@ -113,7 +113,7 @@ export default function About() {
           {/* Left Column: Traditional About */}
           <div className="space-y-8">
             <motion.div 
-              className="glass p-8 md:p-12"
+              className="glass p-6 sm:p-8 md:p-12"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -125,7 +125,7 @@ export default function About() {
             </motion.div>
 
             <motion.div 
-              className="glass p-8 md:p-12"
+              className="glass p-6 sm:p-8 md:p-12"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

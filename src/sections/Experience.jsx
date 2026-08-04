@@ -62,7 +62,7 @@ export default function Experience() {
   const y = useTransform(smoothProgress, [0, 1], ["-20%", "20%"])
 
   return (
-    <section id="experience" ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden py-32 z-10">
+    <section id="experience" ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32 z-10">
       {/* Massive Background Text */}
       <motion.div 
         style={{ y }}
@@ -82,7 +82,7 @@ export default function Experience() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-24"
+          className="text-center mb-12 md:mb-24"
         >
           <p className="section-subtitle justify-center">My Path</p>
           <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight mb-8">
@@ -126,7 +126,7 @@ export default function Experience() {
               </motion.div>
 
               <motion.div
-                className={`glass p-6 sm:p-8 ml-4 md:ml-0 ${index % 2 === 0 ? 'md:mr-8' : 'md:ml-8'}`}
+                className={`glass p-6 sm:p-8 ${index % 2 === 0 ? 'ml-4 md:ml-0 md:mr-8' : 'ml-4 md:ml-8'}`}
                 whileHover={{ scale: 1.02 }}
               >
                 <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
