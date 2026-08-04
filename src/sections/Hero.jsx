@@ -42,7 +42,7 @@ export default function Hero() {
   const opacity = useTransform(scrollY, [0, 400], [1, 0])
 
   return (
-    <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pb-12 lg:pb-0">
+    <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pb-12">
 
       {/* Hero Content */}
       <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center pt-24 lg:pt-20">
@@ -100,7 +100,7 @@ export default function Hero() {
 
       {/* Bottom Stats Row — in normal flow on mobile, pinned to the bottom on desktop */}
       <motion.div
-        className="relative lg:absolute lg:bottom-10 lg:left-0 w-full z-20 px-4 sm:px-6 mt-12 lg:mt-0"
+        className="hero-stats w-full z-20 px-4 sm:px-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 1 }}
