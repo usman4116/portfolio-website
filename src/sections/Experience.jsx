@@ -107,7 +107,7 @@ export default function Experience() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
-              className={`relative pl-12 md:pl-0 mb-12 last:mb-0 ${
+              className={`relative pl-12 md:pl-0 mb-12 last:mb-0 [perspective:1200px] ${
                 index % 2 === 0 ? 'md:pr-[50%]' : 'md:pl-[50%]'
               }`}
             >
@@ -127,7 +127,12 @@ export default function Experience() {
 
               <motion.div
                 className={`glass p-6 sm:p-8 ${index % 2 === 0 ? 'ml-4 md:ml-0 md:mr-8' : 'ml-4 md:ml-8'}`}
-                whileHover={{ scale: 1.02 }}
+                initial={{ rotateY: index % 2 === 0 ? -8 : 8, opacity: 0 }}
+                whileInView={{ rotateY: 0, opacity: 1 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.7, type: 'spring', bounce: 0.2 }}
+                whileHover={{ scale: 1.02, y: -4 }}
+                style={{ transformStyle: 'preserve-3d' }}
               >
                 <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
                   <span className="text-xs font-medium px-3 py-1 rounded-full bg-white/10 text-white capitalize">

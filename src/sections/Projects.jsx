@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
-import { motion, useMotionValue, useTransform, useScroll, useSpring } from 'framer-motion'
+import { motion, useTransform, useScroll, useSpring } from 'framer-motion'
 import { FaGithub, FaExternalLinkAlt, FaCode, FaPython, FaReact } from 'react-icons/fa'
+import Tilt3D from '../components/Tilt3D'
 
 const projects = [
   {
@@ -59,41 +60,15 @@ const categories = [
 ]
 
 function ProjectCard({ project, index }) {
-  const ref = useRef(null)
-  const x = useMotionValue(0)
-  const y = useMotionValue(0)
-  const rotateX = useTransform(y, [-0.5, 0.5], ['5deg', '-5deg'])
-  const rotateY = useTransform(x, [-0.5, 0.5], ['-5deg', '5deg'])
-
-  const handleMouseMove = (e) => {
-    if (!ref.current) return
-    const rect = ref.current.getBoundingClientRect()
-    const width = rect.width
-    const height = rect.height
-    const mouseX = e.clientX - rect.left
-    const mouseY = e.clientY - rect.top
-    const xPct = mouseX / width - 0.5
-    const yPct = mouseY / height - 0.5
-    x.set(xPct)
-    y.set(yPct)
-  }
-
-  const handleMouseLeave = () => {
-    x.set(0)
-    y.set(0)
-  }
-
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.1 }}
-      style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className={`glass p-6 sm:p-8 flex flex-col group ${project.span}`}
+    <Tilt3D
+      max={7}
+      scale={1.025}
+      initial={{ opacity: 0, y: 60, rotateX: 12 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ delay: index * 0.08, duration: 0.65, type: 'spring', bounce: 0.15 }}
+      className={`glass p-6 sm:p-8 flex flex-col group [perspective:1000px] ${project.span}`}
     >
       <div className="flex items-start justify-between mb-6">
         <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
@@ -140,7 +115,7 @@ function ProjectCard({ project, index }) {
           </span>
         ))}
       </div>
-    </motion.div>
+    </Tilt3D>
   )
 }
 

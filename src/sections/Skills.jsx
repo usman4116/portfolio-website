@@ -107,15 +107,16 @@ export default function Skills() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[minmax(180px,auto)] mb-4 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[minmax(180px,auto)] mb-4 relative z-10 [perspective:1400px]">
           {skillCategories.map((category, idx) => (
             <motion.div
               key={category.title}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              whileHover={{ scale: 1.02 }}
+              initial={{ opacity: 0, y: 60, rotateX: 14, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
+              whileHover={{ y: -8, rotateX: -2, scale: 1.02 }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.1, duration: 0.4 }}
+              transition={{ delay: idx * 0.1, duration: 0.65, type: 'spring', bounce: 0.15 }}
+              style={{ transformStyle: 'preserve-3d' }}
               className={`glass p-6 sm:p-8 md:p-10 flex flex-col group ${category.span}`}
             >
               <div className="flex items-center gap-4 mb-8">

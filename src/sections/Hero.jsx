@@ -38,20 +38,23 @@ const item = {
 
 export default function Hero() {
   const { scrollY } = useScroll()
-  const scale = useTransform(scrollY, [0, 500], [1, 0.7])
+  const scale = useTransform(scrollY, [0, 500], [1, 0.75])
   const opacity = useTransform(scrollY, [0, 400], [1, 0])
+  // 3D: card tips backwards into space and sinks as you scroll away
+  const rotateX = useTransform(scrollY, [0, 500], ['0deg', '18deg'])
+  const cardY = useTransform(scrollY, [0, 500], [0, 80])
 
   return (
     <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pb-12">
 
       {/* Hero Content */}
-      <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center pt-24 lg:pt-20">
+      <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center pt-24 lg:pt-20 [perspective:1200px]">
         <motion.div
-          className="glass rounded-[2rem] p-6 sm:p-8 md:p-12 w-full bg-black/50 border border-white/10 shadow-2xl origin-center"
+          className="glass rounded-[2rem] p-6 sm:p-8 md:p-12 w-full bg-black/50 border border-white/10 shadow-2xl origin-center will-change-transform"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: 'easeOut' }}
-          style={{ scale, opacity }}
+          style={{ scale, opacity, rotateX, y: cardY, transformStyle: 'preserve-3d' }}
         >
           <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             
@@ -88,7 +91,13 @@ export default function Hero() {
             </div>
 
             {/* Right Side: Profile Picture */}
-            <motion.div variants={item} className="relative w-full max-w-[280px] lg:max-w-xs mx-auto aspect-square rounded-full overflow-hidden border border-white/10 shadow-[0_0_40px_rgba(255,255,255,0.1)] group">
+            <motion.div
+              variants={item}
+              className="relative w-full max-w-[280px] lg:max-w-xs mx-auto aspect-square rounded-full overflow-hidden border border-white/10 shadow-[0_0_40px_rgba(255,255,255,0.1)] group"
+              style={{ transform: 'translateZ(45px)' }}
+              whileHover={{ rotateY: 6, rotateX: -4, scale: 1.03 }}
+              transition={{ type: 'spring', stiffness: 220, damping: 20 }}
+            >
               <img src="/profile.jpg" alt="Muhammad Usman Farhan" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#020202]/60 via-transparent to-transparent pointer-events-none" />
               <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-white/10 pointer-events-none" />

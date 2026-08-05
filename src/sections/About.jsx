@@ -109,14 +109,16 @@ export default function About() {
           </h2>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 relative z-10 [perspective:1400px]">
           {/* Left Column: Traditional About */}
           <div className="space-y-8">
-            <motion.div 
+            <motion.div
               className="glass p-6 sm:p-8 md:p-12"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 50, rotateX: 10 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.7, type: 'spring', bounce: 0.15 }}
+              style={{ transformStyle: 'preserve-3d' }}
             >
               <h3 className="text-2xl font-serif text-white mb-6">Background</h3>
               <p className="text-slate-400 leading-relaxed text-sm md:text-base">
@@ -171,9 +173,11 @@ export default function About() {
           {/* Right Column: Memory Graph */}
           <motion.div
             className="glass p-8 md:p-12 flex flex-col justify-center"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: 40, rotateY: -8 }}
+            whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.7, type: 'spring', bounce: 0.15 }}
+            style={{ transformStyle: 'preserve-3d' }}
           >
             <h3 className="text-2xl font-serif text-white mb-10">React Ecosystem Mastery</h3>
             <MemoryGraph />

@@ -120,10 +120,12 @@ export default function Contact() {
 
         {/* Minimal Form */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 60, rotateX: 14 }}
+          whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
           viewport={{ once: true }}
-          className="w-full max-w-2xl"
+          transition={{ duration: 0.8, type: 'spring', bounce: 0.15 }}
+          className="w-full max-w-2xl [perspective:1200px]"
+          style={{ transformStyle: 'preserve-3d' }}
         >
           <div className="glass p-6 sm:p-8 md:p-12 rounded-[2rem]">
             {submitted ? (
