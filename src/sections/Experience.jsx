@@ -1,6 +1,11 @@
-import { useRef } from 'react'
+import { useRef, useLayoutEffect } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { FaGraduationCap, FaBriefcase } from 'react-icons/fa'
+import RevealTitle from '../components/RevealTitle'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const timelineData = [
   {
@@ -47,12 +52,13 @@ const timelineData = [
 
 export default function Experience() {
   const sectionRef = useRef(null)
-  
+  const timelineRef = useRef(null)
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"]
   })
-  
+
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
@@ -61,78 +67,95 @@ export default function Experience() {
 
   const y = useTransform(smoothProgress, [0, 1], ["-20%", "20%"])
 
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // Timeline spine draws itself as you scroll through the section
+      gsap.fromTo(
+        '.tl-line',
+        { scaleY: 0 },
+        {
+          scaleY: 1,
+          ease: 'none',
+          transformOrigin: 'top center',
+          scrollTrigger: {
+            trigger: timelineRef.current,
+            start: 'top 75%',
+            end: 'bottom 55%',
+            scrub: 0.6,
+          },
+        }
+      )
+
+      // Cards swing in from alternating sides in 3D
+      gsap.utils.toArray('.tl-card').forEach((card, i) => {
+        const fromLeft = i % 2 === 0
+        gsap.fromTo(
+          card,
+          { opacity: 0, x: fromLeft ? -70 : 70, rotateY: fromLeft ? 14 : -14 },
+          {
+            opacity: 1,
+            x: 0,
+            rotateY: 0,
+            duration: 0.9,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: card, start: 'top 85%', once: true },
+          }
+        )
+      })
+
+      // Node dots pop with a slight overshoot
+      gsap.utils.toArray('.tl-dot').forEach((dot) => {
+        gsap.fromTo(
+          dot,
+          { scale: 0 },
+          {
+            scale: 1,
+            duration: 0.5,
+            ease: 'back.out(2.5)',
+            scrollTrigger: { trigger: dot, start: 'top 85%', once: true },
+          }
+        )
+      })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
   return (
     <section id="experience" ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32 z-10">
       {/* Massive Background Text */}
-      <motion.div 
+      <motion.div
         style={{ y }}
         className="bg-word will-change-transform transform-gpu"
       >
         EXPERIENCE
       </motion.div>
 
-      <motion.div 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true, margin: "-100px" }}
-        className="container relative z-10 max-w-5xl mx-auto"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12 md:mb-24"
-        >
+      <div className="container relative z-10 max-w-5xl mx-auto">
+        <div className="text-center mb-12 md:mb-24">
           <p className="section-subtitle justify-center">My Path</p>
-          <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight mb-8">
-            Experience & <br className="hidden md:block" />
-            <span className="text-slate-400">Education.</span>
-          </h2>
-        </motion.div>
+          <RevealTitle title="Experience &" accent="Education." className="text-center" />
+        </div>
 
-        <div className="relative max-w-4xl mx-auto">
-          <motion.div
-            className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-white/10"
-            initial={{ scaleY: 0, originY: 0 }}
-            whileInView={{ scaleY: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.5, ease: 'easeOut' }}
-          />
+        <div ref={timelineRef} className="relative max-w-4xl mx-auto [perspective:1200px]">
+          <div className="tl-line absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-white/40 via-white/15 to-white/5" />
 
           {timelineData.map((item, index) => (
-            <motion.div
+            <div
               key={item.title}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -40 : 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
-              className={`relative pl-12 md:pl-0 mb-12 last:mb-0 [perspective:1200px] ${
+              className={`relative pl-12 md:pl-0 mb-12 last:mb-0 ${
                 index % 2 === 0 ? 'md:pr-[50%]' : 'md:pl-[50%]'
               }`}
             >
-              <motion.div
-                className="absolute left-0 md:left-1/2 w-8 h-8 rounded-full flex items-center justify-center z-10 -translate-x-1/2 bg-black border border-white/20"
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.4, type: "spring", bounce: 0.5, delay: 0.1 }}
-              >
+              <div className="tl-dot absolute left-0 md:left-1/2 w-8 h-8 rounded-full flex items-center justify-center z-10 -translate-x-1/2 bg-black border border-white/20">
                 {item.type === 'education' ? (
                   <FaGraduationCap className="text-xs text-white" />
                 ) : (
                   <FaBriefcase className="text-xs text-white" />
                 )}
-              </motion.div>
+              </div>
 
-              <motion.div
-                className={`glass p-6 sm:p-8 ${index % 2 === 0 ? 'ml-4 md:ml-0 md:mr-8' : 'ml-4 md:ml-8'}`}
-                initial={{ rotateY: index % 2 === 0 ? -8 : 8, opacity: 0 }}
-                whileInView={{ rotateY: 0, opacity: 1 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.7, type: 'spring', bounce: 0.2 }}
-                whileHover={{ scale: 1.02, y: -4 }}
-                style={{ transformStyle: 'preserve-3d' }}
+              <div
+                className={`tl-card glass p-6 sm:p-8 will-change-transform ${index % 2 === 0 ? 'ml-4 md:ml-0 md:mr-8' : 'ml-4 md:ml-8'}`}
               >
                 <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
                   <span className="text-xs font-medium px-3 py-1 rounded-full bg-white/10 text-white capitalize">
@@ -155,11 +178,11 @@ export default function Experience() {
                     </span>
                   ))}
                 </div>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   )
 }

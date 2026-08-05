@@ -1,6 +1,11 @@
-import { useRef } from 'react'
+import { useRef, useLayoutEffect } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { FaCode, FaLayerGroup, FaTools } from 'react-icons/fa'
+import RevealTitle from '../components/RevealTitle'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const skillCategories = [
   {
@@ -37,8 +42,8 @@ const skillCategories = [
 ]
 
 const otherSkills = [
-  'Vibe Coding', 'EDA Automation', 'SQLite', 'Hive (NoSQL)', 
-  'Git', 'Docker', 'VS Code', 'Figma', 'Adobe Suite', 
+  'Vibe Coding', 'EDA Automation', 'SQLite', 'Hive (NoSQL)',
+  'Git', 'Docker', 'VS Code', 'Figma', 'Adobe Suite',
   'Clean Architecture', 'BLoC Pattern', 'Atomic Transactions'
 ]
 
@@ -50,12 +55,10 @@ function SkillBar({ name, level }) {
         <span className="text-sm text-slate-500">{level}%</span>
       </div>
       <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-        <motion.div
-          className="h-full bg-white rounded-full"
-          initial={{ width: 0 }}
-          whileInView={{ width: `${level}%` }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.5, ease: 'easeOut', delay: 0.2 }}
+        <div
+          className="skill-fill h-full bg-white rounded-full origin-left"
+          data-level={level}
+          style={{ width: `${level}%`, transform: 'scaleX(0)' }}
         />
       </div>
     </div>
@@ -68,7 +71,7 @@ export default function Skills() {
     target: ref,
     offset: ["start end", "end start"]
   })
-  
+
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
@@ -77,47 +80,76 @@ export default function Skills() {
 
   const y = useTransform(smoothProgress, [0, 1], ["-20%", "20%"])
 
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // Cards surface from depth with a stagger
+      gsap.fromTo(
+        '.skill-card',
+        { opacity: 0, y: 80, rotateX: 16, scale: 0.94 },
+        {
+          opacity: 1,
+          y: 0,
+          rotateX: 0,
+          scale: 1,
+          stagger: 0.12,
+          duration: 0.9,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: '.skills-grid', start: 'top 80%', once: true },
+        }
+      )
+
+      // Bars grow with a scrubbed sweep once cards are up
+      gsap.utils.toArray('.skill-fill').forEach((bar) => {
+        gsap.fromTo(
+          bar,
+          { scaleX: 0 },
+          {
+            scaleX: 1,
+            duration: 1.2,
+            ease: 'power4.out',
+            scrollTrigger: { trigger: bar, start: 'top 88%', once: true },
+          }
+        )
+      })
+
+      // Chips cascade in
+      gsap.fromTo(
+        '.skill-chip',
+        { opacity: 0, y: 16 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.035,
+          duration: 0.5,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: '.skill-chips', start: 'top 88%', once: true },
+        }
+      )
+    }, ref)
+    return () => ctx.revert()
+  }, [])
+
   return (
     <section id="skills" ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32 z-10">
       {/* Massive Background Text */}
-      <motion.div 
+      <motion.div
         style={{ y }}
         className="bg-word will-change-transform transform-gpu"
       >
         SKILLS
       </motion.div>
 
-      <motion.div 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true, margin: "-100px" }}
-        className="container relative z-10 max-w-6xl mx-auto"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12 md:mb-24"
-        >
+      <div className="container relative z-10 max-w-6xl mx-auto">
+        <div className="text-center mb-12 md:mb-24">
           <p className="section-subtitle justify-center">What I Know</p>
-          <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight mb-8">
-            Technical <br className="hidden md:block" />
-            <span className="text-slate-400">Arsenal.</span>
-          </h2>
-        </motion.div>
+          <RevealTitle title="Technical" accent="Arsenal." className="text-center" />
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[minmax(180px,auto)] mb-4 relative z-10 [perspective:1400px]">
-          {skillCategories.map((category, idx) => (
-            <motion.div
+        <div className="skills-grid grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[minmax(180px,auto)] mb-4 relative z-10 [perspective:1400px]">
+          {skillCategories.map((category) => (
+            <div
               key={category.title}
-              initial={{ opacity: 0, y: 60, rotateX: 14, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
-              whileHover={{ y: -8, rotateX: -2, scale: 1.02 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1, duration: 0.65, type: 'spring', bounce: 0.15 }}
-              style={{ transformStyle: 'preserve-3d' }}
-              className={`glass p-6 sm:p-8 md:p-10 flex flex-col group ${category.span}`}
+              className={`skill-card glass p-6 sm:p-8 md:p-10 flex flex-col group will-change-transform ${category.span}`}
             >
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
@@ -130,34 +162,24 @@ export default function Skills() {
                   <SkillBar key={skill.name} {...skill} />
                 ))}
               </div>
-            </motion.div>
+            </div>
           ))}
-          
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="glass p-6 sm:p-8 md:p-10 md:col-span-4"
-          >
+
+          <div className="skill-card glass p-6 sm:p-8 md:p-10 md:col-span-4 will-change-transform">
             <h3 className="text-lg font-medium text-slate-300 mb-8">Additional Technologies</h3>
-            <div className="flex flex-wrap gap-3">
-              {otherSkills.map((skill, i) => (
-                <motion.span
+            <div className="skill-chips flex flex-wrap gap-3">
+              {otherSkills.map((skill) => (
+                <span
                   key={skill}
-                  className="px-5 py-2.5 bg-white/5 rounded-full text-sm text-slate-300 hover:text-white hover:bg-white/10 transition-colors border border-white/5 hover:border-white/20 cursor-default font-medium"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.05 }}
+                  className="skill-chip px-5 py-2.5 bg-white/5 rounded-full text-sm text-slate-300 hover:text-white hover:bg-white/10 transition-colors border border-white/5 hover:border-white/20 cursor-default font-medium"
                 >
                   {skill}
-                </motion.span>
+                </span>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   )
 }

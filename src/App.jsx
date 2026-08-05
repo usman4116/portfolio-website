@@ -13,12 +13,14 @@ import CustomCursor from './components/CustomCursor'
 import Preloader from './components/Preloader'
 import ScrollProgress from './components/ScrollProgress'
 import BackToTop from './components/BackToTop'
+import GsapSync from './components/GsapSync'
 
 const GridPulse = lazy(() => import('./components/GridPulse'))
 
 function App() {
   return (
     <ReactLenis root options={{ lerp: 0.12, wheelMultiplier: 1, smoothWheel: true, syncTouch: false }}>
+      <GsapSync />
       <Preloader />
       <CustomCursor />
       <ScrollProgress />
@@ -32,7 +34,9 @@ function App() {
         <Navbar />
         <main>
           <Hero />
-          <div className="flex flex-col bg-[#020202]">
+          {/* Transparent so the 3D tunnel journey stays visible while scrolling.
+              NOTE: must not be display:flex — GSAP pin spacing is disabled inside flex parents */}
+          <div>
             <About />
             <Skills />
             <Projects />
@@ -40,7 +44,7 @@ function App() {
             <Contact />
           </div>
         </main>
-        <div className="bg-[#020202]">
+        <div>
           <Footer />
         </div>
         <AIAssistant />

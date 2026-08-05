@@ -1,7 +1,12 @@
-import { useRef } from 'react'
+import { useRef, useLayoutEffect } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
-import { FaGraduationCap, FaCertificate, FaReact, FaNodeJs, FaHtml5 } from 'react-icons/fa'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { FaCertificate, FaReact, FaHtml5 } from 'react-icons/fa'
 import { SiNextdotjs } from 'react-icons/si'
+import RevealTitle from '../components/RevealTitle'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const graphNodes = [
   { icon: FaHtml5, title: 'Web Fundamentals', desc: 'HTML, CSS, JS DOM', delay: 0 },
@@ -80,6 +85,42 @@ export default function About() {
 
   const y = useTransform(smoothProgress, [0, 1], ["-20%", "20%"])
 
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // Cards rise from depth
+      gsap.utils.toArray('.about-card').forEach((card, i) => {
+        gsap.fromTo(
+          card,
+          { opacity: 0, y: 70, rotateX: 10 },
+          {
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            duration: 0.9,
+            delay: i * 0.08,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: card, start: 'top 85%', once: true },
+          }
+        )
+      })
+
+      // Columns drift apart subtly while scrolling through (desktop only)
+      gsap.matchMedia().add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
+        gsap.to('.about-col-left', {
+          y: -40,
+          ease: 'none',
+          scrollTrigger: { trigger: '.about-grid', start: 'top bottom', end: 'bottom top', scrub: 1 },
+        })
+        gsap.to('.about-col-right', {
+          y: 40,
+          ease: 'none',
+          scrollTrigger: { trigger: '.about-grid', start: 'top bottom', end: 'bottom top', scrub: 1 },
+        })
+      })
+    }, ref)
+    return () => ctx.revert()
+  }, [])
+
   return (
     <section id="about" ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32 z-10">
       {/* Massive Background Text */}
@@ -90,49 +131,23 @@ export default function About() {
         JOURNEY
       </motion.div>
 
-      <motion.div 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true, margin: "-100px" }}
-        className="container relative z-10 max-w-6xl mx-auto"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12 md:mb-24"
-        >
+      <div className="container relative z-10 max-w-6xl mx-auto">
+        <div className="text-center mb-12 md:mb-24">
           <p className="section-subtitle justify-center">Get to Know</p>
-          <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight mb-8">
-            The <span className="text-slate-400">Journey.</span>
-          </h2>
-        </motion.div>
+          <RevealTitle title="The" accent="Journey." br={false} className="text-center" />
+        </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 relative z-10 [perspective:1400px]">
+        <div className="about-grid grid lg:grid-cols-2 gap-8 md:gap-12 relative z-10 [perspective:1400px]">
           {/* Left Column: Traditional About */}
-          <div className="space-y-8">
-            <motion.div
-              className="glass p-6 sm:p-8 md:p-12"
-              initial={{ opacity: 0, y: 50, rotateX: 10 }}
-              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, type: 'spring', bounce: 0.15 }}
-              style={{ transformStyle: 'preserve-3d' }}
-            >
+          <div className="about-col-left space-y-8">
+            <div className="about-card glass p-6 sm:p-8 md:p-12 will-change-transform">
               <h3 className="text-2xl font-serif text-white mb-6">Background</h3>
               <p className="text-slate-400 leading-relaxed text-sm md:text-base">
                 Computer Science student at the University of Management and Technology (UMT) and a Certified Graphic Designer with 2+ years of professional freelance experience on Fiverr (since Jan 2022). Specializes in Vibe Coding — leveraging AI-assisted workflows to rapidly architect and ship production-grade systems across Mobile, Web, and Data Science domains. Proficient in Full-Stack Web (React/Node), Python data science, and C++ systems programming, with a strong track record of deploying complex, scalable solutions independently.
               </p>
-            </motion.div>
+            </div>
 
-            <motion.div 
-              className="glass p-6 sm:p-8 md:p-12"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-            >
+            <div className="about-card glass p-6 sm:p-8 md:p-12 will-change-transform">
               <div className="flex items-center gap-4 mb-8">
                 <FaCertificate className="text-2xl text-white" />
                 <h3 className="text-2xl font-medium text-white">Certifications</h3>
@@ -167,23 +182,18 @@ export default function About() {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
           </div>
 
           {/* Right Column: Memory Graph */}
-          <motion.div
-            className="glass p-8 md:p-12 flex flex-col justify-center"
-            initial={{ opacity: 0, x: 40, rotateY: -8 }}
-            whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, type: 'spring', bounce: 0.15 }}
-            style={{ transformStyle: 'preserve-3d' }}
-          >
-            <h3 className="text-2xl font-serif text-white mb-10">React Ecosystem Mastery</h3>
-            <MemoryGraph />
-          </motion.div>
+          <div className="about-col-right">
+            <div className="about-card glass p-8 md:p-12 flex flex-col justify-center h-full will-change-transform">
+              <h3 className="text-2xl font-serif text-white mb-10">React Ecosystem Mastery</h3>
+              <MemoryGraph />
+            </div>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   )
 }

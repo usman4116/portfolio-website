@@ -1,6 +1,11 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useLayoutEffect } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaPaperPlane, FaCheck, FaRocket } from 'react-icons/fa'
+import RevealTitle from '../components/RevealTitle'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const socialLinks = [
   { icon: FaGithub, href: 'https://github.com/usman4116', label: 'GitHub' },
@@ -58,6 +63,24 @@ export default function Contact() {
 
   const y = useTransform(smoothProgress, [0, 1], ["-20%", "20%"])
 
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        '.contact-cta',
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.08,
+          duration: 0.7,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: '.contact-ctas', start: 'top 88%', once: true },
+        }
+      )
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
   return (
     <section id="contact" ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32 z-10">
       {/* Massive Background Text */}
@@ -69,21 +92,13 @@ export default function Contact() {
       </motion.div>
 
       <div className="container relative z-10 flex flex-col items-center max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight mb-8">
-            Let's build something <br className="hidden md:block" />
-            <span className="text-slate-400">extraordinary.</span>
-          </h2>
-          
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
+        <div className="text-center mb-12">
+          <RevealTitle title="Let's build something" accent="extraordinary." className="text-center" />
+
+          <div className="contact-ctas flex flex-wrap items-center justify-center gap-4 mb-8">
             <motion.a
               href="mailto:roxenusman@gmail.com"
-              className="bg-white text-black px-8 py-4 rounded-full font-semibold hover:bg-slate-200 transition-all flex items-center gap-3 text-sm md:text-base"
+              className="contact-cta bg-white text-black px-8 py-4 rounded-full font-semibold hover:bg-slate-200 transition-all flex items-center gap-3 text-sm md:text-base"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               data-hover
@@ -93,7 +108,7 @@ export default function Contact() {
             <motion.a
               href="https://linkedin.com/in/usman4116/"
               target="_blank"
-              className="bg-white/5 border border-white/10 text-white px-8 py-4 rounded-full font-medium hover:bg-white/10 transition-all flex items-center gap-2 text-sm md:text-base"
+              className="contact-cta bg-white/5 border border-white/10 text-white px-8 py-4 rounded-full font-medium hover:bg-white/10 transition-all flex items-center gap-2 text-sm md:text-base"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               data-hover
@@ -108,7 +123,7 @@ export default function Contact() {
                 key={social.label}
                 href={social.href}
                 target="_blank"
-                className="px-6 py-2.5 rounded-full bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:border-white/30 hover:bg-white/10 transition-all text-xs font-medium"
+                className="contact-cta px-6 py-2.5 rounded-full bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:border-white/30 hover:bg-white/10 transition-all text-xs font-medium"
                 whileHover={{ y: -2 }}
                 data-hover
               >
@@ -116,7 +131,7 @@ export default function Contact() {
               </motion.a>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Minimal Form */}
         <motion.div
