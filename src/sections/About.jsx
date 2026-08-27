@@ -122,11 +122,12 @@ export default function About() {
   }, [])
 
   return (
-    <section id="about" ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32 z-10">
+    <section id="about" aria-labelledby="about-heading" ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32 z-10">
       {/* Massive Background Text */}
       <motion.div 
         style={{ y }}
         className="bg-word will-change-transform transform-gpu"
+        aria-hidden="true"
       >
         JOURNEY
       </motion.div>
@@ -134,7 +135,7 @@ export default function About() {
       <div className="container relative z-10 max-w-6xl mx-auto">
         <div className="text-center mb-12 md:mb-24">
           <p className="section-subtitle justify-center">Get to Know</p>
-          <RevealTitle title="The" accent="Journey." br={false} className="text-center" />
+          <RevealTitle id="about-heading" title="The" accent="Journey." br={false} className="text-center" />
         </div>
 
         <div className="about-grid grid lg:grid-cols-2 gap-8 md:gap-12 relative z-10 [perspective:1400px]">
@@ -168,10 +169,15 @@ export default function About() {
                   { name: 'Python Data Structures and Algorithms', issuer: 'LinkedIn Learning', url: '#' },
                 ].map((cert, i) => (
                   <li key={i} className="flex items-start gap-4 text-sm group">
-                    <span className="w-2 h-2 mt-1.5 rounded-full bg-white/20 group-hover:bg-white transition-colors shrink-0" />
+                    <span className="w-2 h-2 mt-1.5 rounded-full bg-white/20 group-hover:bg-white transition-colors shrink-0" aria-hidden="true" />
                     <div className="flex flex-col">
                       {cert.url && cert.url !== '#' ? (
-                        <a href={cert.url} target="_blank" rel="noreferrer" className="text-white hover:text-slate-300 transition-colors font-medium">
+                        <a
+                          href={cert.url}
+                          target="_blank"
+                          rel="noopener noreferrer nofollow"
+                          className="text-white hover:text-slate-300 transition-colors font-medium"
+                        >
                           {cert.name}
                         </a>
                       ) : (

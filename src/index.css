@@ -61,9 +61,58 @@
     background: rgba(255, 255, 255, 0.2);
     color: #ffffff;
   }
+
+  /* Hash links land below the fixed 5rem navbar instead of underneath it */
+  section[id],
+  main[id] {
+    scroll-margin-top: 5rem;
+  }
+
+  /* The custom cursor hides the native one, so a visible focus ring is the
+     only affordance keyboard users have. */
+  :focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
 }
 
 @layer components {
+  /* Visually hidden but exposed to screen readers and to crawlers as real
+     text (never used to hide keywords — only genuine form labels). */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Skip link — off-screen until focused */
+  .skip-link {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -120%);
+    z-index: 100000;
+    padding: 0.75rem 1.25rem;
+    background: #ffffff;
+    color: #000000;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 0 0 0.75rem 0.75rem;
+    transition: transform 0.2s ease;
+  }
+
+  .skip-link:focus-visible {
+    transform: translate(-50%, 0);
+    outline-offset: -4px;
+  }
+
   /* Galaxy Background */
   .galaxy-bg {
     position: fixed;

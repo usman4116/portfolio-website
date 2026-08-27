@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger)
  * Section heading with a GSAP split-word 3D reveal.
  * Each word rises out of an overflow mask and un-tilts as it enters view.
  */
-export default function RevealTitle({ title, accent, br = true, className = '' }) {
+export default function RevealTitle({ title, accent, br = true, className = '', id }) {
   const ref = useRef(null)
 
   useLayoutEffect(() => {
@@ -43,6 +43,7 @@ export default function RevealTitle({ title, accent, br = true, className = '' }
   return (
     <h2
       ref={ref}
+      id={id}
       className={`text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight mb-8 ${className}`}
     >
       {words(title, 'rt-a')}

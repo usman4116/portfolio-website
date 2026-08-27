@@ -1,4 +1,3 @@
-import { lazy, Suspense } from 'react'
 import { ReactLenis } from 'lenis/react'
 import Navbar from './components/Navbar'
 import Hero from './sections/Hero'
@@ -14,8 +13,7 @@ import Preloader from './components/Preloader'
 import ScrollProgress from './components/ScrollProgress'
 import BackToTop from './components/BackToTop'
 import GsapSync from './components/GsapSync'
-
-const GridPulse = lazy(() => import('./components/GridPulse'))
+import Background from './components/Background'
 
 function App() {
   return (
@@ -24,15 +22,15 @@ function App() {
       <Preloader />
       <CustomCursor />
       <ScrollProgress />
-      
-      {/* 3D Background — lazy-loaded so first paint isn't blocked by three.js */}
-      <Suspense fallback={<div className="fixed inset-0 z-0 bg-[#020202]" />}>
-        <GridPulse />
-      </Suspense>
-      
+
+      <a href="#main" className="skip-link">Skip to main content</a>
+
+      {/* Static gradient always; the 3D lattice loads only where it renders. */}
+      <Background />
+
       <div className="relative z-10">
         <Navbar />
-        <main>
+        <main id="main">
           <Hero />
           {/* Transparent so the 3D tunnel journey stays visible while scrolling.
               NOTE: must not be display:flex — GSAP pin spacing is disabled inside flex parents */}
@@ -44,9 +42,7 @@ function App() {
             <Contact />
           </div>
         </main>
-        <div>
-          <Footer />
-        </div>
+        <Footer />
         <AIAssistant />
         <BackToTop />
       </div>

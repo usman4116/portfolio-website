@@ -1,11 +1,17 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+
+function pointerIsFine() {
+  if (typeof window === 'undefined') return false
+  return window.matchMedia('(pointer: fine)').matches
+}
 
 /**
  * Reusable 3D tilt wrapper.
  * - Tilts toward the cursor with springed rotateX/rotateY
  * - Adds a moving light "glare" that follows the pointer
  * - Disabled automatically on touch devices (no pointer: fine)
+ * - `as` picks the rendered element so callers can stay semantic (e.g. article)
  */
 export default function Tilt3D({
   children,
@@ -14,10 +20,13 @@ export default function Tilt3D({
   glare = true,
   scale = 1.02,
   style = {},
+  as = 'div',
   ...motionProps
 }) {
   const ref = useRef(null)
-  const [enabled, setEnabled] = useState(false)
+  // Resolved during the first render instead of in an effect: no second commit,
+  // and no tilt-less first frame on desktop.
+  const [enabled] = useState(pointerIsFine)
 
   const x = useMotionValue(0)
   const y = useMotionValue(0)
@@ -29,10 +38,6 @@ export default function Tilt3D({
   const glareX = useTransform(x, [-0.5, 0.5], ['20%', '80%'])
   const glareY = useTransform(y, [-0.5, 0.5], ['20%', '80%'])
   const glareOpacity = useMotionValue(0)
-
-  useEffect(() => {
-    setEnabled(window.matchMedia('(pointer: fine)').matches)
-  }, [])
 
   const handleMouseMove = (e) => {
     if (!ref.current || !enabled) return
@@ -48,8 +53,10 @@ export default function Tilt3D({
     glareOpacity.set(0)
   }
 
+  const Tag = motion[as] ?? motion.div
+
   return (
-    <motion.div
+    <Tag
       {...motionProps}
       ref={ref}
       onMouseMove={handleMouseMove}
@@ -79,6 +86,6 @@ export default function Tilt3D({
           />
         </motion.div>
       )}
-    </motion.div>
+    </Tag>
   )
 }

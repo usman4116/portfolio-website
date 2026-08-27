@@ -178,48 +178,34 @@ function StarDust({ count = 300 }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Root                                                               */
+/*  Root — canvas only.                                                */
+/*                                                                     */
+/*  The wrapper element, static gradient, vignette, and the device      */
+/*  capability gating all live in Background.jsx so that this module    */
+/*  (and three.js with it) is only ever downloaded when it will render. */
 /* ------------------------------------------------------------------ */
 export default function GridPulse() {
-  const [enable3D, setEnable3D] = useState(false)
-  const [pageVisible, setPageVisible] = useState(true)
+  const [pageVisible, setPageVisible] = useState(!document.hidden)
   const scrollRef = useScrollProgressRef()
   const mouseRef = useMouseRef()
 
   useEffect(() => {
-    // Skip the WebGL scene on touch devices, small screens, and for users
-    // who prefer reduced motion — they get the static gradient instead.
-    const isTouch = window.matchMedia('(pointer: coarse)').matches
-    const isSmall = window.innerWidth < 768
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    setEnable3D(!isTouch && !isSmall && !reducedMotion)
-
     const onVisibility = () => setPageVisible(!document.hidden)
     document.addEventListener('visibilitychange', onVisibility)
     return () => document.removeEventListener('visibilitychange', onVisibility)
   }, [])
 
   return (
-    <div className="fixed inset-0 z-0 bg-[#020202] pointer-events-none">
-      {/* Static depth gradient — always present, sole background on mobile */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,#101010_0%,#020202_70%)]" />
-
-      {enable3D && (
-        <Canvas
-          camera={{ position: [0, 0, 11], fov: 55 }}
-          dpr={[1, 1.25]}
-          frameloop={pageVisible ? 'always' : 'never'}
-          gl={{ powerPreference: 'high-performance', antialias: false, alpha: true, stencil: false, depth: true }}
-        >
-          <fog attach="fog" args={['#020202', 4, 24]} />
-          <CameraRig scrollRef={scrollRef} mouseRef={mouseRef} />
-          <Lattice scrollRef={scrollRef} />
-          <StarDust />
-        </Canvas>
-      )}
-
-      {/* Vignette overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_20%,_#000000_100%)]" />
-    </div>
+    <Canvas
+      camera={{ position: [0, 0, 11], fov: 55 }}
+      dpr={[1, 1.25]}
+      frameloop={pageVisible ? 'always' : 'never'}
+      gl={{ powerPreference: 'high-performance', antialias: false, alpha: true, stencil: false, depth: true }}
+    >
+      <fog attach="fog" args={['#020202', 4, 24]} />
+      <CameraRig scrollRef={scrollRef} mouseRef={mouseRef} />
+      <Lattice scrollRef={scrollRef} />
+      <StarDust />
+    </Canvas>
   )
 }

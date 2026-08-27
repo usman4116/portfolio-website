@@ -45,7 +45,7 @@ export default function Navbar() {
   }, [])
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+    <nav aria-label="Primary" className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
       scrolled ? 'bg-[#020202]/60 backdrop-blur-md border-b border-white/5' : ''
     }`}>
       <div className="container">
@@ -60,7 +60,14 @@ export default function Navbar() {
               className="w-11 h-11 rounded-full overflow-hidden border border-white/20 shadow-lg"
               transition={{ duration: 0.6 }}
             >
-              <img src="/profile.jpg" alt="Usman Farhan" className="w-full h-full object-cover" />
+              {/* Decorative: the adjacent text already names the link. */}
+              <img
+                src="/profile.jpg"
+                alt=""
+                width="44"
+                height="44"
+                className="w-full h-full object-cover"
+              />
             </motion.div>
             <span className="font-bold text-xl text-white font-sans tracking-tight">
               Usman <span className="text-slate-400">Farhan</span>
@@ -75,13 +82,14 @@ export default function Navbar() {
                 <motion.a
                   key={link.name}
                   href={link.href}
+                  aria-current={isActive ? 'true' : undefined}
                   className={`relative px-4 py-2 text-sm font-medium transition-colors flex items-center gap-2 ${
                     isActive ? 'text-white' : 'text-slate-400 hover:text-white'
                   }`}
                   whileHover={{ y: -2 }}
                   data-hover
                 >
-                  <Icon size={16} />
+                  <Icon size={16} aria-hidden="true" />
                   {link.name}
                   {isActive && (
                     <motion.div
@@ -105,14 +113,18 @@ export default function Navbar() {
           </motion.a>
 
           <button
+            type="button"
             className="lg:hidden p-2 text-slate-400"
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             <motion.div
               animate={{ rotate: mobileOpen ? 180 : 0 }}
               transition={{ duration: 0.3 }}
             >
-              {mobileOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+              {mobileOpen ? <FiX size={24} aria-hidden="true" /> : <FiMenu size={24} aria-hidden="true" />}
             </motion.div>
           </button>
         </div>
@@ -121,6 +133,7 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
+            id="mobile-menu"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -140,7 +153,7 @@ export default function Navbar() {
                     onClick={() => setMobileOpen(false)}
                     data-hover
                   >
-                    <Icon size={20} />
+                    <Icon size={20} aria-hidden="true" />
                     {link.name}
                   </motion.a>
                 )

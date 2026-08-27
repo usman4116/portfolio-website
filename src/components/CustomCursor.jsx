@@ -1,9 +1,16 @@
 import { useEffect, useState } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 
+function finePointer() {
+  if (typeof window === 'undefined') return false
+  return window.matchMedia('(pointer: fine)').matches
+}
+
 export default function CustomCursor() {
   const [isHovered, setIsHovered] = useState(false)
-  const [isFinePointer, setIsFinePointer] = useState(false)
+  // Resolved during the first render rather than in an effect, so touch
+  // devices never mount the cursor at all and there is no extra commit.
+  const [isFinePointer, setIsFinePointer] = useState(finePointer)
 
   // Cursor coordinates
   const cursorX = useMotionValue(-100)
@@ -15,7 +22,6 @@ export default function CustomCursor() {
 
   useEffect(() => {
     const mq = window.matchMedia('(pointer: fine)')
-    setIsFinePointer(mq.matches)
     const onChange = (e) => setIsFinePointer(e.matches)
     mq.addEventListener('change', onChange)
     return () => mq.removeEventListener('change', onChange)

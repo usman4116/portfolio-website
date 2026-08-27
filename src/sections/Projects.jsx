@@ -23,7 +23,6 @@ const projects = [
     tech: ['HTML5', 'CSS3', 'JavaScript'],
     tag: 'UI / UX',
     github: 'https://github.com/usman4116',
-    live: 'https://usmanfarhan.netlify.app',
     icon: FaCode,
   },
   {
@@ -55,18 +54,22 @@ const projects = [
 function ProjectCard({ project, index }) {
   return (
     <Tilt3D
+      as="article"
       max={6}
       scale={1.015}
       className="proj-card glass relative flex flex-col shrink-0 w-full md:w-[min(520px,42vw)] p-6 sm:p-8 md:p-10 md:min-h-[480px] overflow-hidden"
     >
       {/* Oversized index watermark */}
-      <span className="absolute -top-6 right-2 text-[7rem] md:text-[9rem] font-black text-white/[0.04] leading-none select-none pointer-events-none">
+      <span
+        className="absolute -top-6 right-2 text-[7rem] md:text-[9rem] font-black text-white/[0.04] leading-none select-none pointer-events-none"
+        aria-hidden="true"
+      >
         0{index + 1}
       </span>
 
       <div className="flex items-start justify-between mb-8">
         <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-          <project.icon className="text-xl text-white" />
+          <project.icon className="text-xl text-white" aria-hidden="true" />
         </div>
         <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500 border border-white/10 rounded-full px-3 py-1.5 mt-1">
           {project.tag}
@@ -91,24 +94,24 @@ function ProjectCard({ project, index }) {
           <a
             href={project.github}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             aria-label={`${project.title} on GitHub`}
             className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all"
             data-hover
           >
-            <FaGithub />
+            <FaGithub aria-hidden="true" />
           </a>
         )}
         {project.live && (
           <a
             href={project.live}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             aria-label={`${project.title} live site`}
             className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all"
             data-hover
           >
-            <FaExternalLinkAlt size={14} />
+            <FaExternalLinkAlt size={14} aria-hidden="true" />
           </a>
         )}
       </div>
@@ -195,17 +198,18 @@ export default function Projects() {
   return (
     <section
       id="projects"
+      aria-labelledby="projects-heading"
       ref={sectionRef}
       className="relative md:min-h-screen md:h-screen flex flex-col justify-center overflow-hidden py-20 md:py-0 z-10"
     >
       {/* Massive Background Text */}
-      <motion.div style={{ y: bgY }} className="bg-word will-change-transform transform-gpu">
+      <motion.div style={{ y: bgY }} className="bg-word will-change-transform transform-gpu" aria-hidden="true">
         PROJECTS
       </motion.div>
 
       <div className="container relative z-10 mb-8 md:mb-12">
         <p className="section-subtitle">My Work</p>
-        <RevealTitle title="Selected" accent="Projects." br={false} className="!mb-2" />
+        <RevealTitle id="projects-heading" title="Selected" accent="Projects." br={false} className="!mb-2" />
         <p className="hidden md:block text-xs uppercase tracking-[0.25em] text-slate-500 mt-4">
           Scroll to explore →
         </p>
@@ -226,12 +230,12 @@ export default function Projects() {
             <a
               href="https://github.com/usman4116"
               target="_blank"
-              rel="noreferrer"
+              rel="me noopener noreferrer"
               className="w-16 h-16 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform"
-              aria-label="GitHub profile"
+              aria-label="Muhammad Usman Farhan on GitHub"
               data-hover
             >
-              <FaGithub size={26} />
+              <FaGithub size={26} aria-hidden="true" />
             </a>
           </div>
         </div>

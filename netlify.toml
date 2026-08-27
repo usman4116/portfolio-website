@@ -1,0 +1,66 @@
+# Netlify configuration.
+#
+# The site is currently served from Netlify (its *.netlify.app subdomain is
+# referenced in the repo history). If you host elsewhere this file is simply
+# ignored — the equivalent settings would move to that platform's config.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# NOTE: there is deliberately NO SPA catch-all redirect here.
+#
+# A `/*  /index.html  200` rule would make every non-existent URL return the
+# home page with a 200 status, which search engines treat as a soft 404 and
+# can index as duplicate content. Because this is a single-page site with no
+# client-side router, unmatched paths should genuinely 404 — Netlify serves
+# public/404.html with a real 404 status automatically.
+
+# Vite emits content-hashed filenames under /assets, so these are immutable.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# The HTML shell must always be revalidated so new deploys are picked up.
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Un-hashed static assets: cache for a day, then revalidate in the background.
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+# Crawler-facing files change independently of deploys; keep them fresh.
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/site.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json; charset=utf-8"
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"

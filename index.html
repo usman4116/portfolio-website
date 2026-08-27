@@ -2,20 +2,327 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Canonical: the site is also reachable on its *.netlify.app subdomain,
+         so every variant must point search engines at the apex domain. -->
+    <link rel="canonical" href="https://usmanfarhan.com/" />
+
+    <title>Usman Farhan — Full-Stack Engineer &amp; AI-Driven Developer</title>
+    <meta
+      name="description"
+      content="Portfolio of Muhammad Usman Farhan, a software engineer building full-stack web apps, AI-assisted tools, and data-science projects in React, Node.js, and Python."
+    />
+    <meta name="author" content="Muhammad Usman Farhan" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+
+    <!-- Icons. The 192px and 512px icons are intentionally referenced only from
+         the manifest: listing them here made Chrome eagerly download the 192px
+         file on every first visit just to paint a 16px tab favicon. -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#020202" />
-    <title>Muhammad Usman Farhan | Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <meta name="description" content="Muhammad Usman Farhan — Full-Stack Engineer, AI-Driven Developer, and Certified Graphic Designer. Portfolio featuring web, mobile, and data science projects." />
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="apple-mobile-web-app-title" content="Usman Farhan" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content="Muhammad Usman Farhan" />
+    <meta property="og:url" content="https://usmanfarhan.com/" />
+    <meta
+      property="og:title"
+      content="Usman Farhan — Full-Stack Engineer &amp; AI-Driven Developer"
+    />
+    <meta
+      property="og:description"
+      content="Software engineer building full-stack web apps, AI-assisted tools, and data-science projects in React, Node.js, and Python."
+    />
+    <meta property="og:image" content="https://usmanfarhan.com/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Muhammad Usman Farhan — Software Engineer. Full-stack, AI-driven development, data science."
+    />
+    <meta property="og:locale" content="en_US" />
+    <meta property="profile:first_name" content="Muhammad Usman" />
+    <meta property="profile:last_name" content="Farhan" />
+
+    <!-- X / Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@usmanfarhan" />
+    <meta
+      name="twitter:title"
+      content="Usman Farhan — Full-Stack Engineer &amp; AI-Driven Developer"
+    />
+    <meta
+      name="twitter:description"
+      content="Software engineer building full-stack web apps, AI-assisted tools, and data-science projects in React, Node.js, and Python."
+    />
+    <meta name="twitter:image" content="https://usmanfarhan.com/og-image.jpg" />
+    <meta
+      name="twitter:image:alt"
+      content="Muhammad Usman Farhan — Software Engineer. Full-stack, AI-driven development, data science."
+    />
+
+    <!-- The hero portrait is the likely LCP element; start it immediately. -->
+    <link rel="preload" as="image" href="/profile.jpg" fetchpriority="high" />
+
+    <!-- Inter only. Playfair Display was previously requested but never
+         applied by any rendered rule, so it was pure render-blocking weight.
+         Weight 300 is likewise unused. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    />
+
+    <!-- Google Analytics 4 (G-LT391V9DGH).
+         The tag is injected asynchronously so it never blocks rendering, and
+         it is skipped on localhost so local development doesn't pollute the
+         property's reports. -->
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+        gtag('js', new Date());
+        gtag('config', 'G-LT391V9DGH');
+        var gaScript = document.createElement('script');
+        gaScript.async = true;
+        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-LT391V9DGH';
+        document.head.appendChild(gaScript);
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://usmanfarhan.com/#person",
+            "name": "Muhammad Usman Farhan",
+            "alternateName": "Usman Farhan",
+            "url": "https://usmanfarhan.com/",
+            "jobTitle": ["Software Engineer", "Full-Stack Developer"],
+            "description": "Software engineer and Computer Science student building full-stack web applications, AI-assisted developer tooling, and data-science projects across React, Node.js, Python, and C++.",
+            "email": "mailto:roxenusman@gmail.com",
+            "image": {
+              "@type": "ImageObject",
+              "@id": "https://usmanfarhan.com/#primaryimage",
+              "url": "https://usmanfarhan.com/profile.jpg",
+              "contentUrl": "https://usmanfarhan.com/profile.jpg",
+              "width": 640,
+              "height": 640
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Lahore",
+              "addressCountry": "PK"
+            },
+            "affiliation": {
+              "@type": "CollegeOrUniversity",
+              "name": "University of Management and Technology"
+            },
+            "knowsAbout": [
+              "Full-stack web development",
+              "JavaScript",
+              "TypeScript",
+              "React",
+              "Next.js",
+              "Node.js",
+              "Python",
+              "C++",
+              "PostgreSQL",
+              "Prisma",
+              "Tailwind CSS",
+              "Machine learning",
+              "Data structures and algorithms",
+              "Exploratory data analysis",
+              "Git",
+              "Docker",
+              "UI/UX design"
+            ],
+            "sameAs": [
+              "https://github.com/usman4116",
+              "https://www.linkedin.com/in/usman4116/",
+              "https://twitter.com/usmanfarhan"
+            ],
+            "mainEntityOfPage": { "@id": "https://usmanfarhan.com/#webpage" }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://usmanfarhan.com/#website",
+            "url": "https://usmanfarhan.com/",
+            "name": "Muhammad Usman Farhan",
+            "description": "Portfolio of Muhammad Usman Farhan — software engineer working across full-stack web development, AI-assisted tooling, and data science.",
+            "inLanguage": "en",
+            "publisher": { "@id": "https://usmanfarhan.com/#person" },
+            "author": { "@id": "https://usmanfarhan.com/#person" },
+            "copyrightHolder": { "@id": "https://usmanfarhan.com/#person" }
+          },
+          {
+            "@type": "ProfilePage",
+            "@id": "https://usmanfarhan.com/#webpage",
+            "url": "https://usmanfarhan.com/",
+            "name": "Usman Farhan — Full-Stack Engineer & AI-Driven Developer",
+            "description": "Portfolio of Muhammad Usman Farhan, a software engineer building full-stack web apps, AI-assisted tools, and data-science projects in React, Node.js, and Python.",
+            "isPartOf": { "@id": "https://usmanfarhan.com/#website" },
+            "about": { "@id": "https://usmanfarhan.com/#person" },
+            "mainEntity": { "@id": "https://usmanfarhan.com/#person" },
+            "primaryImageOfPage": { "@id": "https://usmanfarhan.com/#primaryimage" },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "ItemList",
+            "@id": "https://usmanfarhan.com/#projects",
+            "name": "Selected projects by Muhammad Usman Farhan",
+            "itemListOrder": "https://schema.org/ItemListOrderAscending",
+            "numberOfItems": 5,
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                  "@type": "SoftwareSourceCode",
+                  "name": "AcctPro SaaS",
+                  "description": "Multi-tenant accounting and inventory system with atomic transactions and historical cost snapshotting.",
+                  "programmingLanguage": ["JavaScript", "SQL"],
+                  "url": "https://usmanfarhan.com/#projects",
+                  "author": { "@id": "https://usmanfarhan.com/#person" }
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "item": {
+                  "@type": "SoftwareSourceCode",
+                  "name": "UMT Student Portal redesign",
+                  "description": "UI/UX modernisation and responsive dashboard redesign for the University of Management and Technology student portal.",
+                  "programmingLanguage": ["JavaScript", "HTML", "CSS"],
+                  "url": "https://usmanfarhan.com/#projects",
+                  "author": { "@id": "https://usmanfarhan.com/#person" }
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "item": {
+                  "@type": "SoftwareSourceCode",
+                  "name": "Harvest-Max-Ai",
+                  "description": "Predictive analytics engine using machine learning for precision agriculture, crop yield optimisation, and resource management.",
+                  "programmingLanguage": "Python",
+                  "url": "https://usmanfarhan.com/#projects",
+                  "author": { "@id": "https://usmanfarhan.com/#person" }
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 4,
+                "item": {
+                  "@type": "SoftwareSourceCode",
+                  "name": "ChainReaction",
+                  "description": "Blockchain ledger simulation implementing Merkle trees, a queue-based mempool, and reverse-chain validation.",
+                  "programmingLanguage": "C++",
+                  "url": "https://usmanfarhan.com/#projects",
+                  "author": { "@id": "https://usmanfarhan.com/#person" }
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 5,
+                "item": {
+                  "@type": "SoftwareSourceCode",
+                  "name": "Python EDA CLI Tool",
+                  "description": "Open-source command-line tool that accelerates exploratory data analysis for data professionals.",
+                  "programmingLanguage": "Python",
+                  "url": "https://usmanfarhan.com/#projects",
+                  "author": { "@id": "https://usmanfarhan.com/#person" }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Content fallback for user agents that don't execute JavaScript.
+         Mirrors the rendered page; no hidden or keyword-padded text. -->
+    <noscript>
+      <div
+        style="
+          max-width: 44rem;
+          margin: 0 auto;
+          padding: 3rem 1.5rem;
+          font-family: Inter, system-ui, sans-serif;
+          color: #e2e8f0;
+          line-height: 1.65;
+        "
+      >
+        <h1 style="font-size: 2rem; margin-bottom: 0.5rem">Muhammad Usman Farhan</h1>
+        <p style="color: #a1a1aa; margin-bottom: 2rem">
+          Software Engineer — Full-Stack Engineer, AI-Driven Developer, and Certified
+          Graphic Designer based in Lahore, Pakistan.
+        </p>
+
+        <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem">About</h2>
+        <p style="margin-bottom: 2rem">
+          Computer Science student at the University of Management and Technology (UMT)
+          with 2+ years of professional freelance experience. Works across full-stack web
+          development with React and Node.js, Python data science, and C++ systems
+          programming.
+        </p>
+
+        <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem">Selected projects</h2>
+        <ul style="margin: 0 0 2rem 1.25rem">
+          <li>
+            <strong>AcctPro SaaS</strong> — multi-tenant accounting and inventory system
+            with atomic transactions (React, Node.js, Prisma, PostgreSQL).
+          </li>
+          <li>
+            <strong>UMT Student Portal</strong> — UI/UX modernisation and responsive
+            dashboard redesign.
+          </li>
+          <li>
+            <strong>Harvest-Max-Ai</strong> — machine-learning predictive analytics for
+            precision agriculture (Python).
+          </li>
+          <li>
+            <strong>ChainReaction</strong> — blockchain ledger simulation with Merkle trees
+            and reverse-chain validation (C++).
+          </li>
+          <li>
+            <strong>Python EDA CLI Tool</strong> — open-source tool that speeds up
+            exploratory data analysis.
+          </li>
+        </ul>
+
+        <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem">Contact</h2>
+        <p>
+          <a href="mailto:roxenusman@gmail.com" style="color: #fff">roxenusman@gmail.com</a>
+          ·
+          <a href="https://github.com/usman4116" style="color: #fff" rel="noopener noreferrer">GitHub</a>
+          ·
+          <a href="https://www.linkedin.com/in/usman4116/" style="color: #fff" rel="noopener noreferrer">LinkedIn</a>
+        </p>
+      </div>
+    </noscript>
   </body>
 </html>

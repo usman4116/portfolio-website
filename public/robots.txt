@@ -1,0 +1,9 @@
+# https://usmanfarhan.com/robots.txt
+# Personal portfolio — all public content is open to crawlers.
+# Nothing is disallowed: CSS, JS, images and fonts must stay crawlable so
+# search engines can render and evaluate the page.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://usmanfarhan.com/sitemap.xml

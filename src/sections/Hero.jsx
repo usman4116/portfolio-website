@@ -45,7 +45,7 @@ export default function Hero() {
   const cardY = useTransform(scrollY, [0, 500], [0, 80])
 
   return (
-    <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pb-12">
+    <section id="hero" aria-labelledby="hero-heading" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pb-12">
 
       {/* Hero Content */}
       <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center pt-24 lg:pt-20 [perspective:1200px]">
@@ -67,11 +67,13 @@ export default function Hero() {
                 </div>
               </motion.div>
 
-              <motion.h2 variants={item} className="text-xl md:text-3xl font-medium text-white mb-2 tracking-tight">
+              {/* Role eyebrow. Deliberately not a heading: it sits above the
+                  h1, and an h2 here would invert the document outline. */}
+              <motion.p variants={item} className="text-xl md:text-3xl font-medium text-white mb-2 tracking-tight">
                 Software Engineer
-              </motion.h2>
+              </motion.p>
 
-              <motion.h1 variants={item} className="text-4xl sm:text-5xl md:text-6xl font-sans font-bold leading-[0.95] tracking-tighter mb-6 text-white">
+              <motion.h1 id="hero-heading" variants={item} className="text-4xl sm:text-5xl md:text-6xl font-sans font-bold leading-[0.95] tracking-tighter mb-6 text-white">
                 <span className="block text-slate-300">Muhammad</span>
                 <span className="block">Usman Farhan</span>
               </motion.h1>
@@ -98,7 +100,15 @@ export default function Hero() {
               whileHover={{ rotateY: 6, rotateX: -4, scale: 1.03 }}
               transition={{ type: 'spring', stiffness: 220, damping: 20 }}
             >
-              <img src="/profile.jpg" alt="Muhammad Usman Farhan" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <img
+                src="/profile.jpg"
+                alt="Muhammad Usman Farhan"
+                width="640"
+                height="640"
+                fetchPriority="high"
+                decoding="async"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-[#020202]/60 via-transparent to-transparent pointer-events-none" />
               <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-white/10 pointer-events-none" />
             </motion.div>

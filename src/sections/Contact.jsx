@@ -15,10 +15,9 @@ const socialLinks = [
 ]
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' })
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [errors, setErrors] = useState({})
   const [submitted, setSubmitted] = useState(false)
-  const [focused, setFocused] = useState(null)
 
   const validate = () => {
     const newErrors = {}
@@ -38,7 +37,7 @@ export default function Contact() {
     }
     setErrors({})
     setSubmitted(true)
-    setFormData({ name: '', email: '', subject: '', message: '' })
+    setFormData({ name: '', email: '', message: '' })
     setTimeout(() => setSubmitted(false), 5000)
   }
 
@@ -82,18 +81,19 @@ export default function Contact() {
   }, [])
 
   return (
-    <section id="contact" ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32 z-10">
+    <section id="contact" aria-labelledby="contact-heading" ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32 z-10">
       {/* Massive Background Text */}
       <motion.div 
         style={{ y }}
         className="bg-word will-change-transform transform-gpu"
+        aria-hidden="true"
       >
         CONTACT
       </motion.div>
 
       <div className="container relative z-10 flex flex-col items-center max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <RevealTitle title="Let's build something" accent="extraordinary." className="text-center" />
+          <RevealTitle id="contact-heading" title="Let's build something" accent="extraordinary." className="text-center" />
 
           <div className="contact-ctas flex flex-wrap items-center justify-center gap-4 mb-8">
             <motion.a
@@ -106,8 +106,9 @@ export default function Contact() {
               Get in touch <FaRocket className="text-xs" />
             </motion.a>
             <motion.a
-              href="https://linkedin.com/in/usman4116/"
+              href="https://www.linkedin.com/in/usman4116/"
               target="_blank"
+              rel="noopener noreferrer"
               className="contact-cta bg-white/5 border border-white/10 text-white px-8 py-4 rounded-full font-medium hover:bg-white/10 transition-all flex items-center gap-2 text-sm md:text-base"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -122,7 +123,9 @@ export default function Contact() {
               <motion.a
                 key={social.label}
                 href={social.href}
-                target="_blank"
+                {...(social.href.startsWith('mailto:')
+                  ? {}
+                  : { target: '_blank', rel: 'noopener noreferrer' })}
                 className="contact-cta px-6 py-2.5 rounded-full bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:border-white/30 hover:bg-white/10 transition-all text-xs font-medium"
                 whileHover={{ y: -2 }}
                 data-hover
@@ -148,49 +151,68 @@ export default function Contact() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center py-12"
+                role="status"
+                aria-live="polite"
               >
                 <div className="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <FaCheck size={24} />
+                  <FaCheck size={24} aria-hidden="true" />
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
                 <p className="text-slate-400">I'll get back to you as soon as possible.</p>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
+                    <label htmlFor="contact-name" className="sr-only">Your name</label>
                     <input
+                      id="contact-name"
                       type="text"
                       name="name"
+                      autoComplete="name"
+                      required
+                      aria-invalid={errors.name ? 'true' : undefined}
+                      aria-describedby={errors.name ? 'contact-name-error' : undefined}
                       value={formData.name}
                       onChange={handleChange}
                       placeholder="Name"
                       className={`w-full bg-transparent border-b ${errors.name ? 'border-red-500' : 'border-white/20'} py-3 text-white placeholder-slate-500 focus:outline-none focus:border-white transition-colors`}
                     />
-                    {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
+                    {errors.name && <p id="contact-name-error" className="text-red-400 text-xs mt-1">{errors.name}</p>}
                   </div>
                   <div>
+                    <label htmlFor="contact-email" className="sr-only">Your email address</label>
                     <input
+                      id="contact-email"
                       type="email"
                       name="email"
+                      autoComplete="email"
+                      required
+                      aria-invalid={errors.email ? 'true' : undefined}
+                      aria-describedby={errors.email ? 'contact-email-error' : undefined}
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="Email"
                       className={`w-full bg-transparent border-b ${errors.email ? 'border-red-500' : 'border-white/20'} py-3 text-white placeholder-slate-500 focus:outline-none focus:border-white transition-colors`}
                     />
-                    {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
+                    {errors.email && <p id="contact-email-error" className="text-red-400 text-xs mt-1">{errors.email}</p>}
                   </div>
                 </div>
                 <div>
+                  <label htmlFor="contact-message" className="sr-only">Your message</label>
                   <textarea
+                    id="contact-message"
                     name="message"
+                    required
+                    aria-invalid={errors.message ? 'true' : undefined}
+                    aria-describedby={errors.message ? 'contact-message-error' : undefined}
                     value={formData.message}
                     onChange={handleChange}
                     rows={4}
                     placeholder="Tell me about your project..."
                     className={`w-full bg-transparent border-b ${errors.message ? 'border-red-500' : 'border-white/20'} py-3 text-white placeholder-slate-500 focus:outline-none focus:border-white transition-colors resize-none`}
                   />
-                  {errors.message && <p className="text-red-400 text-xs mt-1">{errors.message}</p>}
+                  {errors.message && <p id="contact-message-error" className="text-red-400 text-xs mt-1">{errors.message}</p>}
                 </div>
                 <motion.button
                   type="submit"
@@ -199,7 +221,7 @@ export default function Contact() {
                   whileTap={{ scale: 0.98 }}
                   data-hover
                 >
-                  <FaPaperPlane />
+                  <FaPaperPlane aria-hidden="true" />
                   Send Message
                 </motion.button>
               </form>

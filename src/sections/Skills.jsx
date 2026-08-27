@@ -130,11 +130,12 @@ export default function Skills() {
   }, [])
 
   return (
-    <section id="skills" ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32 z-10">
+    <section id="skills" aria-labelledby="skills-heading" ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32 z-10">
       {/* Massive Background Text */}
       <motion.div
         style={{ y }}
         className="bg-word will-change-transform transform-gpu"
+        aria-hidden="true"
       >
         SKILLS
       </motion.div>
@@ -142,7 +143,7 @@ export default function Skills() {
       <div className="container relative z-10 max-w-6xl mx-auto">
         <div className="text-center mb-12 md:mb-24">
           <p className="section-subtitle justify-center">What I Know</p>
-          <RevealTitle title="Technical" accent="Arsenal." className="text-center" />
+          <RevealTitle id="skills-heading" title="Technical" accent="Arsenal." className="text-center" />
         </div>
 
         <div className="skills-grid grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[minmax(180px,auto)] mb-4 relative z-10 [perspective:1400px]">

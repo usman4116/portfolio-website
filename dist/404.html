@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page not found — Usman Farhan</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="This page doesn't exist on usmanfarhan.com." />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#020202" />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+        background: #020202;
+        background-image: radial-gradient(circle at 50% 40%, #101010 0%, #020202 70%);
+        color: #fff;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      main {
+        width: 100%;
+        max-width: 34rem;
+        text-align: center;
+        background: rgba(15, 15, 15, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+        padding: clamp(2rem, 7vw, 3.5rem);
+      }
+
+      .code {
+        font-size: clamp(4rem, 18vw, 7rem);
+        font-weight: 700;
+        letter-spacing: -0.05em;
+        line-height: 1;
+        color: rgba(255, 255, 255, 0.12);
+      }
+
+      h1 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin: 0.5rem 0 0.75rem;
+      }
+
+      p {
+        color: #a1a1aa;
+        font-size: 0.95rem;
+        line-height: 1.65;
+        margin: 0 auto 2rem;
+        max-width: 26rem;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: center;
+      }
+
+      a {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 9999px;
+        padding: 0.85rem 1.75rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+      }
+
+      .primary {
+        background: #fff;
+        color: #000;
+      }
+
+      .primary:hover {
+        background: #e2e8f0;
+        transform: translateY(-2px);
+      }
+
+      .ghost {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #fff;
+        font-weight: 500;
+      }
+
+      .ghost:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+      }
+
+      a:focus-visible {
+        outline: 2px solid #fff;
+        outline-offset: 3px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        a {
+          transition: none;
+        }
+        a:hover {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="code" aria-hidden="true">404</div>
+      <h1>This page doesn't exist</h1>
+      <p>
+        The link may be broken or the page may have moved. Everything on this site lives
+        on the home page — head back there to find the work, experience, and contact
+        details.
+      </p>
+      <div class="actions">
+        <a class="primary" href="/">Back to home</a>
+        <a class="ghost" href="/#projects">View projects</a>
+      </div>
+    </main>
+  </body>
+</html>

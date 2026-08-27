@@ -121,11 +121,12 @@ export default function Experience() {
   }, [])
 
   return (
-    <section id="experience" ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32 z-10">
+    <section id="experience" aria-labelledby="experience-heading" ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32 z-10">
       {/* Massive Background Text */}
       <motion.div
         style={{ y }}
         className="bg-word will-change-transform transform-gpu"
+        aria-hidden="true"
       >
         EXPERIENCE
       </motion.div>
@@ -133,7 +134,7 @@ export default function Experience() {
       <div className="container relative z-10 max-w-5xl mx-auto">
         <div className="text-center mb-12 md:mb-24">
           <p className="section-subtitle justify-center">My Path</p>
-          <RevealTitle title="Experience &" accent="Education." className="text-center" />
+          <RevealTitle id="experience-heading" title="Experience &" accent="Education." className="text-center" />
         </div>
 
         <div ref={timelineRef} className="relative max-w-4xl mx-auto [perspective:1200px]">

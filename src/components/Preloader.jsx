@@ -1,26 +1,43 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
+// Anyone who has asked for reduced motion gets the content immediately.
+function wantsPreloader() {
+  if (typeof window === 'undefined') return true
+  return !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
 export default function Preloader() {
-  const [loading, setLoading] = useState(true)
+  // Lazy initialiser rather than an effect, so reduced-motion visitors never
+  // see a frame of the overlay at all.
+  const [loading, setLoading] = useState(wantsPreloader)
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
+    if (!loading) return
+
+    let value = 0
+    let hideTimeout
+
+    // The overlay used to be dismissed on a hard-coded 1100ms timer, which
+    // left the bar sitting at 100% for up to ~680ms of dead time while the
+    // real content — and the LCP element with it — stayed hidden. Same
+    // animation, now dismissed the moment it finishes.
     const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval)
-          return 100
-        }
-        return Math.min(prev + Math.random() * 22 + 8, 100)
-      })
+      value = Math.min(value + Math.random() * 22 + 8, 100)
+      setProgress(value)
+      if (value >= 100) {
+        clearInterval(interval)
+        hideTimeout = setTimeout(() => setLoading(false), 150)
+      }
     }, 80)
 
-    const timeout = setTimeout(() => setLoading(false), 1100)
     return () => {
       clearInterval(interval)
-      clearTimeout(timeout)
+      clearTimeout(hideTimeout)
     }
+    // Runs once: `loading` only ever transitions true -> false, which unmounts.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -30,6 +47,7 @@ export default function Preloader() {
           className="fixed inset-0 bg-[#000000] z-[99999] flex flex-col items-center justify-center"
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
+          aria-hidden="true"
         >
           <div className="relative w-32 h-32 mb-8">
             <motion.div
@@ -47,7 +65,9 @@ export default function Preloader() {
             >
               <motion.img
                 src="/profile.jpg"
-                alt="Muhammad Usman Farhan"
+                alt=""
+                width="64"
+                height="64"
                 className="w-16 h-16 rounded-full object-cover border border-white/20"
                 animate={{ opacity: [0.6, 1, 0.6] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
